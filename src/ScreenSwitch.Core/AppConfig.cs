@@ -41,6 +41,25 @@ public sealed class AppConfig
     /// </summary>
     public int RetryCount { get; set; } = 1;
 
+    /// <summary>
+    /// Swallow the first hotkey press while a game is in the foreground, so a stray press mid-match
+    /// cannot send both monitors to the other computer. See <see cref="SwitchGuard"/>.
+    /// </summary>
+    public bool BlockWhileGaming { get; set; } = true;
+
+    /// <summary>
+    /// Processes that always count as "a game is running", even in a window. Full-screen apps are
+    /// caught without being listed; this is for games played windowed. Names are matched
+    /// case-insensitively, with or without the <c>.exe</c>.
+    /// </summary>
+    public List<string> BlockedProcesses { get; set; } = ["League of Legends"];
+
+    /// <summary>
+    /// How long after a blocked press a second press counts as "I meant it". Zero disables the
+    /// override, leaving the tray menu as the only way to switch while a game is up.
+    /// </summary>
+    public int OverrideWindowMs { get; set; } = 1500;
+
     [JsonIgnore]
     public static string DefaultPath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
