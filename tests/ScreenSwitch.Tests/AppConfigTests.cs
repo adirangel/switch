@@ -10,6 +10,48 @@ public class AppConfigTests : IDisposable
     private string ConfigPath => Path.Combine(_directory, "config.json");
 
     [Fact]
+    public void SurvivesCollectionsExplicitlySetToNull()
+    {
+        // The config file is documented as hand-editable, so "monitorTargets": null is a thing a
+        // user can plausibly write. It must not take the app down on startup.
+        Directory.CreateDirectory(_directory);
+        File.WriteAllText(ConfigPath, """
+            {
+              "targetInput": "HDMI1",
+              "monitorTargets": null,
+              "blockedProcesses": null
+            }
+            """);
+
+        var config = AppConfig.Load(ConfigPath, out var error);
+
+        Assert.Null(error);
+        Assert.NotNull(config.MonitorTargets);
+        Assert.NotNull(config.BlockedProcesses);
+        Assert.Empty(config.MonitorTargets);
+        Assert.Empty(config.BlockedProcesses);
+    }
+
+    [Fact]
+    public void MonitorTargetsStayCaseInsensitiveAfterLoading()
+    {
+        // The in-memory default uses OrdinalIgnoreCase; System.Text.Json builds its own dictionary
+        // when it sets the property, so the comparer has to be re-applied or the intent is
+        // silently lost for every config that came off disk.
+        Directory.CreateDirectory(_directory);
+        File.WriteAllText(ConfigPath, """
+            {
+              "targetInput": "HDMI1",
+              "monitorTargets": { "\\\\?\\DISPLAY#ACI27E7": "HDMI2" }
+            }
+            """);
+
+        var config = AppConfig.Load(ConfigPath, out _);
+
+        Assert.Equal((byte?)0x12, config.ResolveTargetFor(@"\\?\display#aci27e7"));
+    }
+
+    [Fact]
     public void DefaultsAreUsableExceptForTheTargetTheUserMustPick()
     {
         var config = new AppConfig();

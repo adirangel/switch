@@ -11,6 +11,9 @@ namespace ScreenSwitch.Core;
 /// </summary>
 public sealed class AppConfig
 {
+    private Dictionary<string, string> _monitorTargets = new(StringComparer.OrdinalIgnoreCase);
+    private List<string> _blockedProcesses = ["League of Legends"];
+
     /// <summary>
     /// Input the monitors are switched to. Null until the user picks one on first run.
     /// Accepts names ("HDMI1", "DisplayPort 1"), aliases ("DP") or hex ("0x11").
@@ -21,7 +24,18 @@ public sealed class AppConfig
     /// Per-monitor overrides keyed by the monitor id shown in "Detect monitors". Only needed when
     /// the two monitors are wired to different ports (e.g. one HDMI 1, the other HDMI 2).
     /// </summary>
-    public Dictionary<string, string> MonitorTargets { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    public Dictionary<string, string> MonitorTargets
+    {
+        get => _monitorTargets;
+
+        // System.Text.Json builds its own dictionary and hands it to the setter, which would drop
+        // the case-insensitive comparer for every config loaded from disk. Rebuilding here keeps
+        // monitor ids matching regardless of case, and turns a hand-written `null` into an empty
+        // map instead of a crash on startup.
+        set => _monitorTargets = value is null
+            ? new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            : new Dictionary<string, string>(value, StringComparer.OrdinalIgnoreCase);
+    }
 
     /// <summary>Global hotkey, parsed by <see cref="HotkeySpec.TryParse"/>.</summary>
     public string Hotkey { get; set; } = HotkeySpec.Default.ToString();
@@ -52,7 +66,11 @@ public sealed class AppConfig
     /// caught without being listed; this is for games played windowed. Names are matched
     /// case-insensitively, with or without the <c>.exe</c>.
     /// </summary>
-    public List<string> BlockedProcesses { get; set; } = ["League of Legends"];
+    public List<string> BlockedProcesses
+    {
+        get => _blockedProcesses;
+        set => _blockedProcesses = value ?? [];
+    }
 
     /// <summary>
     /// How long after a blocked press a second press counts as "I meant it". Zero disables the
