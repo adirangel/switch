@@ -25,6 +25,7 @@ internal static class CommandLineRunner
                 "--list" or "-l" => List(output),
                 "--switch" or "-s" => Switch(output, null),
                 "--to" or "-t" => SwitchTo(output, args.Length > 1 ? args[1] : null),
+                "--autostart" => Autostart(output, args.Length > 1 ? args[1] : null),
                 _ => Help(output),
             };
         }
@@ -47,8 +48,49 @@ internal static class CommandLineRunner
         output.AppendLine("  ScreenSwitch.exe --switch      מעבר ליעד שמוגדר בקובץ ההגדרות");
         output.AppendLine("  ScreenSwitch.exe --to HDMI1    מעבר לקלט מסוים (DisplayPort1 / HDMI1 / HDMI2 / 0x11)");
         output.AppendLine("  ScreenSwitch.exe --list        הצגת המסכים, הקלט הנוכחי והקלטים הנתמכים");
+        output.AppendLine("  ScreenSwitch.exe --autostart on|off   הפעלה אוטומטית עם Windows");
         output.AppendLine();
         output.AppendLine($"קובץ הגדרות: {AppConfig.DefaultPath}");
+        return 0;
+    }
+
+    /// <summary>
+    /// Turns "start with Windows" on or off without opening the tray menu, so it can be set up
+    /// from a script. With no argument it just reports the current state.
+    /// </summary>
+    private static int Autostart(StringBuilder output, string? mode)
+    {
+        if (mode is null)
+        {
+            output.AppendLine(StartupManager.IsEnabled()
+                ? "הפעלה אוטומטית: פעילה"
+                : "הפעלה אוטומטית: כבויה");
+            return 0;
+        }
+
+        bool enable;
+        switch (mode.Trim().ToLowerInvariant())
+        {
+            case "on" or "enable" or "true" or "1":
+                enable = true;
+                break;
+            case "off" or "disable" or "false" or "0":
+                enable = false;
+                break;
+            default:
+                output.AppendLine($"ערך לא מוכר: {mode}. השתמש ב-on או ב-off.");
+                return 1;
+        }
+
+        if (!StartupManager.TrySet(enable, out var error))
+        {
+            output.AppendLine($"שינוי ההפעלה האוטומטית נכשל: {error}");
+            return 1;
+        }
+
+        output.AppendLine(enable
+            ? "הפעלה אוטומטית הופעלה. ScreenSwitch יעלה לבד אחרי אתחול."
+            : "הפעלה אוטומטית כובתה.");
         return 0;
     }
 

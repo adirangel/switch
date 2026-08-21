@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="ScreenSwitch">
+  <title>ScreenSwitch</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Same rounded tile as the tray icon: radius is 22% of the edge. -->
+  <rect width="256" height="256" rx="56.32" ry="56.32" fill="url(#tile)"/>
+
+  <g fill="#FFFFFF">
+    <!-- Upper arrow, pointing right: shaft then head, mirroring tools/make_icon.py. -->
+    <rect x="56.32" y="82.56" width="112" height="24.32" rx="12.16" ry="12.16"/>
+    <polygon points="204.8,94.72 168.32,61.89 168.32,127.55"/>
+
+    <!-- Lower arrow, pointing left. -->
+    <rect x="87.68" y="149.12" width="112" height="24.32" rx="12.16" ry="12.16"/>
+    <polygon points="51.2,161.28 87.68,128.45 87.68,194.11"/>
+  </g>
+</svg>

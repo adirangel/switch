@@ -20,6 +20,9 @@ internal sealed class TrayAppContext : ApplicationContext
     private readonly AppConfig _config;
     private readonly Font _boldFont;
 
+    /// <summary>Keeps a stray hotkey press mid-game from yanking the monitors away.</summary>
+    private readonly SwitchGuard _guard = new();
+
     /// <summary>
     /// Balloons raised during construction, before the message loop exists to show them.
     /// Flushed once <see cref="OnStarted"/> runs.
@@ -29,6 +32,13 @@ internal sealed class TrayAppContext : ApplicationContext
     private IReadOnlyList<MonitorSnapshot> _snapshots = [];
     private bool _switching;
     private bool _started;
+
+    /// <summary>
+    /// No target configured at launch, i.e. this is the first run on this machine. Used to offer
+    /// auto-start once the user has finished setting up, rather than on a bare first launch.
+    /// </summary>
+    private bool _firstRun;
+    private bool _startupOffered;
 
     public TrayAppContext(string? configPath = null)
     {
@@ -48,8 +58,10 @@ internal sealed class TrayAppContext : ApplicationContext
         };
         _notifyIcon.MouseClick += OnIconClicked;
 
+        _firstRun = !HasAnyTarget;
+
         _hotkeyWindow = new HotkeyWindow();
-        _hotkeyWindow.Pressed += (_, _) => SwitchAsync(null);
+        _hotkeyWindow.Pressed += (_, _) => OnHotkeyPressed();
         RegisterHotkey();
 
         UpdateTooltip();
@@ -102,6 +114,27 @@ internal sealed class TrayAppContext : ApplicationContext
         {
             SwitchAsync(null);
         }
+    }
+
+    /// <summary>
+    /// The hotkey path, which — unlike the menu and the tray icon — can fire while the user is in
+    /// the middle of a game. <see cref="SwitchGuard"/> decides whether the press was meant.
+    /// </summary>
+    private void OnHotkeyPressed()
+    {
+        var verdict = _guard.Evaluate(_config, ForegroundProbe.Capture(), DateTimeOffset.UtcNow, out var blockedBy);
+
+        if (verdict == GuardVerdict.Block)
+        {
+            var who = string.IsNullOrWhiteSpace(blockedBy) ? "אפליקציה במסך מלא" : blockedBy;
+            Notify(
+                "המעבר נחסם",
+                $"{who} פועלת כרגע. לחץ שוב על הקיצור כדי להעביר בכל זאת.",
+                ToolTipIcon.Info);
+            return;
+        }
+
+        SwitchAsync(null);
     }
 
     /// <summary>
@@ -205,6 +238,36 @@ internal sealed class TrayAppContext : ApplicationContext
         _config.TargetInput = InputSources.CanonicalName(target);
         SaveConfig();
         UpdateTooltip();
+        OfferStartupOnce();
+    }
+
+    /// <summary>
+    /// Asks once, at the end of first-run setup, whether to start with Windows. Without this the
+    /// option sits unnoticed in the context menu and every reboot costs a trip to the .exe.
+    /// </summary>
+    private void OfferStartupOnce()
+    {
+        if (!_firstRun || _startupOffered || StartupManager.IsEnabled())
+        {
+            return;
+        }
+
+        _startupOffered = true;
+
+        var answer = MessageBox.Show(
+            "להפעיל את ScreenSwitch אוטומטית עם Windows?\n\n" +
+            "כך המסכים יהיו זמינים למעבר מיד אחרי אתחול, בלי להריץ את הקובץ ידנית.\n" +
+            "אפשר לשנות בכל רגע מהתפריט של האייקון.",
+            "ScreenSwitch",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question,
+            MessageBoxDefaultButton.Button1,
+            MessageBoxOptions.RightAlign | MessageBoxOptions.RtlReading);
+
+        if (answer == DialogResult.Yes && !StartupManager.TrySet(true, out var error))
+        {
+            Notify("שינוי ההפעלה האוטומטית נכשל", error ?? "שגיאה לא ידועה", ToolTipIcon.Error);
+        }
     }
 
     private void SaveConfig()
