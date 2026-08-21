@@ -15,10 +15,12 @@ public class SwitchGuardTests
         OverrideWindowMs = 1500,
     };
 
-    private static ForegroundState Desktop => new(IsFullscreen: false, ProcessName: "explorer");
+    private static ForegroundState Desktop => new(IsFullscreen: false, CapturesCursor: false, ProcessName: "explorer");
 
-    private static ForegroundState Game(string name = "League of Legends", bool fullscreen = true)
-        => new(fullscreen, name);
+    private static ForegroundState Game(string name = "SomeGame", bool fullscreen = true, bool capturesCursor = false)
+        => new(fullscreen, capturesCursor, name);
+
+    // ------------------------------------------------------------- generic detection
 
     [Fact]
     public void AllowsWhenNothingIsInTheWay()
@@ -38,13 +40,32 @@ public class SwitchGuardTests
         Assert.Equal(GuardVerdict.Allow, guard.Evaluate(Config(), ForegroundState.Unknown, T0, out _));
     }
 
-    [Fact]
-    public void BlocksAFullScreenApp()
+    [Theory]
+    [InlineData("SomeGame")]
+    [InlineData("AnotherGame")]
+    [InlineData("csgo")]
+    [InlineData("EldenRing")]
+    [InlineData("a game released after this code was written")]
+    public void BlocksAnyFullScreenApplicationWhateverItIsCalled(string name)
     {
+        // The whole point: no list is consulted, so a game nobody has heard of is still covered.
         var guard = new SwitchGuard();
 
-        Assert.Equal(GuardVerdict.Block, guard.Evaluate(Config(), Game(), T0, out var blockedBy));
-        Assert.Equal("League of Legends", blockedBy);
+        Assert.Equal(GuardVerdict.Block, guard.Evaluate(new AppConfig(), Game(name), T0, out var blockedBy));
+        Assert.Equal(name, blockedBy);
+    }
+
+    [Theory]
+    [InlineData("SomeGame")]
+    [InlineData("AnotherGame")]
+    public void BlocksAnyWindowedApplicationThatLocksTheCursor(string name)
+    {
+        // A game in a real window is caught by the cursor being confined to it — again, no name
+        // matching involved.
+        var guard = new SwitchGuard();
+
+        var windowed = Game(name, fullscreen: false, capturesCursor: true);
+        Assert.Equal(GuardVerdict.Block, guard.Evaluate(new AppConfig(), windowed, T0, out _));
     }
 
     [Fact]
@@ -52,25 +73,45 @@ public class SwitchGuardTests
     {
         var guard = new SwitchGuard();
 
-        var state = new ForegroundState(IsFullscreen: true, ProcessName: null);
+        var state = new ForegroundState(IsFullscreen: true, CapturesCursor: false, ProcessName: null);
         Assert.Equal(GuardVerdict.Block, guard.Evaluate(Config(), state, T0, out var blockedBy));
         Assert.Null(blockedBy);
     }
 
     [Fact]
-    public void BlocksAListedProcessEvenInAWindow()
+    public void ShippedDefaultsNameNoGames()
+    {
+        // The default config is deliberately empty of game names: detection is behavioural, so
+        // nobody has to see someone else's library in their settings.
+        Assert.Empty(new AppConfig().BlockedProcesses);
+    }
+
+    [Fact]
+    public void LeavesAnOrdinaryWindowedAppAlone()
     {
         var guard = new SwitchGuard();
 
-        // The point of the blocklist: a game played windowed is still a game.
+        // Windowed, cursor free, not listed: a text editor, not a game.
+        var editor = Game("Notepad", fullscreen: false);
+        Assert.Equal(GuardVerdict.Allow, guard.Evaluate(new AppConfig(), editor, T0, out _));
+    }
+
+    // ------------------------------------------------------------- the optional blocklist
+
+    [Fact]
+    public void BlocksAListedProcessEvenWithNoOtherSignal()
+    {
+        var guard = new SwitchGuard();
+
+        // The escape hatch for a game that runs windowed and leaves the cursor free.
         var windowed = Game(fullscreen: false);
-        Assert.Equal(GuardVerdict.Block, guard.Evaluate(Config("League of Legends"), windowed, T0, out _));
+        Assert.Equal(GuardVerdict.Block, guard.Evaluate(Config("SomeGame"), windowed, T0, out _));
     }
 
     [Theory]
-    [InlineData("League of Legends")]
-    [InlineData("League of Legends.exe")]
-    [InlineData("  league of legends.EXE  ")]
+    [InlineData("SomeGame")]
+    [InlineData("SomeGame.exe")]
+    [InlineData("  somegame.EXE  ")]
     public void MatchesBlockedNamesLoosely(string configured)
     {
         var guard = new SwitchGuard();
@@ -85,8 +126,19 @@ public class SwitchGuardTests
         var guard = new SwitchGuard();
 
         var windowed = Game("Notepad", fullscreen: false);
-        Assert.Equal(GuardVerdict.Allow, guard.Evaluate(Config("League of Legends"), windowed, T0, out _));
+        Assert.Equal(GuardVerdict.Allow, guard.Evaluate(Config("SomeGame"), windowed, T0, out _));
     }
+
+    [Fact]
+    public void EmptyAndWhitespaceEntriesNeverMatch()
+    {
+        var guard = new SwitchGuard();
+
+        var state = new ForegroundState(IsFullscreen: false, CapturesCursor: false, ProcessName: "   ");
+        Assert.Equal(GuardVerdict.Allow, guard.Evaluate(Config("", "   ", ".exe"), state, T0, out _));
+    }
+
+    // ------------------------------------------------------------- the override
 
     [Fact]
     public void SecondPressInsideTheWindowGoesThrough()
@@ -170,16 +222,6 @@ public class SwitchGuardTests
     }
 
     [Fact]
-    public void DisabledGuardAlwaysAllows()
-    {
-        var guard = new SwitchGuard();
-        var config = Config();
-        config.BlockWhileGaming = false;
-
-        Assert.Equal(GuardVerdict.Allow, guard.Evaluate(config, Game(), T0, out _));
-    }
-
-    [Fact]
     public void ResetForgetsAPendingOverride()
     {
         var guard = new SwitchGuard();
@@ -190,22 +232,15 @@ public class SwitchGuardTests
         Assert.Equal(GuardVerdict.Block, guard.Evaluate(config, Game(), T0.AddMilliseconds(100), out _));
     }
 
-    [Fact]
-    public void BlockedProcessesDefaultsToTheGameTheUserPlays()
-    {
-        // Documents the shipped default: LoL is blocked out of the box, windowed or not.
-        var guard = new SwitchGuard();
-
-        var windowed = Game(fullscreen: false);
-        Assert.Equal(GuardVerdict.Block, guard.Evaluate(new AppConfig(), windowed, T0, out _));
-    }
+    // ------------------------------------------------------------- opting out
 
     [Fact]
-    public void EmptyAndWhitespaceEntriesNeverMatch()
+    public void DisabledGuardAlwaysAllows()
     {
         var guard = new SwitchGuard();
+        var config = Config();
+        config.BlockWhileGaming = false;
 
-        var state = new ForegroundState(IsFullscreen: false, ProcessName: "   ");
-        Assert.Equal(GuardVerdict.Allow, guard.Evaluate(Config("", "   ", ".exe"), state, T0, out _));
+        Assert.Equal(GuardVerdict.Allow, guard.Evaluate(config, Game(capturesCursor: true), T0, out _));
     }
 }

@@ -8,14 +8,19 @@ namespace ScreenSwitch.Core;
 /// The foreground window covers a whole monitor, or Windows reports an exclusive full-screen
 /// Direct3D app. Both shapes of "a game is running" land here.
 /// </param>
+/// <param name="CapturesCursor">
+/// Something is confining the mouse to a region smaller than the desktop. Games that run in a
+/// window generally lock the cursor to keep mouse-look working, so this catches them without
+/// anyone having to name them.
+/// </param>
 /// <param name="ProcessName">Foreground process name, without the <c>.exe</c>; null when unknown.</param>
-public readonly record struct ForegroundState(bool IsFullscreen, string? ProcessName)
+public readonly record struct ForegroundState(bool IsFullscreen, bool CapturesCursor, string? ProcessName)
 {
     /// <summary>
     /// Nothing could be determined. Deliberately treated as "not a game": a probe that fails must
     /// never leave the user unable to switch.
     /// </summary>
-    public static readonly ForegroundState Unknown = new(false, null);
+    public static readonly ForegroundState Unknown = new(false, false, null);
 }
 
 /// <summary>The outcome of <see cref="SwitchGuard.Evaluate"/>.</summary>
@@ -55,8 +60,8 @@ public sealed class SwitchGuard
     /// Verdict for a hotkey press happening at <paramref name="now"/>.
     /// </summary>
     /// <param name="blockedBy">
-    /// On <see cref="GuardVerdict.Block"/>, what triggered it — a process name, or null when it
-    /// was a full-screen window we could not name. Null for every other verdict.
+    /// On <see cref="GuardVerdict.Block"/>, what triggered it — a process name, or null when the
+    /// application could not be named. Null for every other verdict.
     /// </param>
     public GuardVerdict Evaluate(AppConfig config, ForegroundState state, DateTimeOffset now, out string? blockedBy)
     {
@@ -109,7 +114,10 @@ public sealed class SwitchGuard
             }
         }
 
-        if (state.IsFullscreen)
+        // Neither of these looks at *which* application it is: any full-screen app, and anything
+        // holding the cursor captive, counts. That is what makes the guard work for games nobody
+        // has listed anywhere.
+        if (state.IsFullscreen || state.CapturesCursor)
         {
             reason = state.ProcessName;
             return true;
@@ -120,7 +128,7 @@ public sealed class SwitchGuard
 
     /// <summary>
     /// Trims a process name to its comparable form. The config may reasonably say either
-    /// "League of Legends" or "League of Legends.exe", so both are accepted.
+    /// "SomeGame" or "SomeGame.exe", so both are accepted.
     /// </summary>
     private static string? Normalise(string? name)
     {

@@ -163,4 +163,20 @@ internal static class NativeMethods
 
     [DllImport("shell32.dll")]
     internal static extern int SHQueryUserNotificationState(out UserNotificationState pquns);
+
+    internal const int SmXVirtualScreen = 76;
+    internal const int SmYVirtualScreen = 77;
+    internal const int SmCxVirtualScreen = 78;
+    internal const int SmCyVirtualScreen = 79;
+
+    /// <summary>
+    /// The rectangle the cursor is currently confined to. With no confinement in force this is the
+    /// whole virtual desktop, so a smaller rectangle means something has captured the mouse.
+    /// </summary>
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool GetClipCursor(out Rect lpRect);
+
+    [DllImport("user32.dll")]
+    internal static extern int GetSystemMetrics(int nIndex);
 }

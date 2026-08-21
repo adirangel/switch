@@ -8,10 +8,14 @@ namespace ScreenSwitch;
 /// <summary>
 /// Answers "is the user in the middle of a game right now?" for <see cref="SwitchGuard"/>.
 ///
-/// Two signals, because one is not enough. <c>SHQueryUserNotificationState</c> catches exclusive
-/// full-screen Direct3D, but most games — League of Legends included — are usually played
-/// borderless windowed, which that API happily reports as a normal desktop. So the foreground
-/// window is also measured against its monitor.
+/// Three signals, because no single one covers enough games. <c>SHQueryUserNotificationState</c>
+/// catches exclusive full-screen Direct3D, but plenty of titles are played borderless windowed,
+/// which that API happily reports as an ordinary desktop — so the foreground window is also
+/// measured against its monitor. And a game running in a genuine window is caught by the cursor
+/// being locked to it.
+///
+/// All three describe what an application is *doing*, never which application it is, so the guard
+/// works for any game without a list of names to maintain.
 /// </summary>
 internal static class ForegroundProbe
 {
@@ -44,7 +48,7 @@ internal static class ForegroundProbe
 
             var processName = TryGetProcessName(hwnd);
             var fullscreen = IsD3DFullscreen() || CoversItsMonitor(hwnd);
-            return new ForegroundState(fullscreen, processName);
+            return new ForegroundState(fullscreen, CursorIsConfined(), processName);
         }
         catch (Exception ex) when (ex is InvalidOperationException or ArgumentException or PlatformNotSupportedException)
         {
@@ -93,6 +97,37 @@ internal static class ForegroundProbe
             && window.Top <= screen.Top
             && window.Right >= screen.Right
             && window.Bottom >= screen.Bottom;
+    }
+
+    /// <summary>
+    /// True when the cursor is confined to less than the whole virtual desktop. A game running in
+    /// a window locks the mouse to its client area so mouse-look keeps working, which makes this a
+    /// useful signal for games no blocklist mentions — it describes what an application is doing
+    /// rather than which application it is.
+    /// </summary>
+    private static bool CursorIsConfined()
+    {
+        if (!NativeMethods.GetClipCursor(out var clip))
+        {
+            return false;
+        }
+
+        var left = NativeMethods.GetSystemMetrics(NativeMethods.SmXVirtualScreen);
+        var top = NativeMethods.GetSystemMetrics(NativeMethods.SmYVirtualScreen);
+        var width = NativeMethods.GetSystemMetrics(NativeMethods.SmCxVirtualScreen);
+        var height = NativeMethods.GetSystemMetrics(NativeMethods.SmCyVirtualScreen);
+
+        // A metrics call that fails reports 0; treating that as "not confined" keeps the hotkey
+        // working rather than blocking it on bad data.
+        if (width <= 0 || height <= 0)
+        {
+            return false;
+        }
+
+        return clip.Left > left
+            || clip.Top > top
+            || clip.Right < left + width
+            || clip.Bottom < top + height;
     }
 
     private static bool IsShellWindow(IntPtr hwnd)

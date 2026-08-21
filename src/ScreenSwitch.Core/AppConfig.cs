@@ -12,7 +12,7 @@ namespace ScreenSwitch.Core;
 public sealed class AppConfig
 {
     private Dictionary<string, string> _monitorTargets = new(StringComparer.OrdinalIgnoreCase);
-    private List<string> _blockedProcesses = ["League of Legends"];
+    private List<string> _blockedProcesses = [];
 
     /// <summary>
     /// Input the monitors are switched to. Null until the user picks one on first run.
@@ -62,9 +62,10 @@ public sealed class AppConfig
     public bool BlockWhileGaming { get; set; } = true;
 
     /// <summary>
-    /// Processes that always count as "a game is running", even in a window. Full-screen apps are
-    /// caught without being listed; this is for games played windowed. Names are matched
-    /// case-insensitively, with or without the <c>.exe</c>.
+    /// Extra processes that always count as "a game is running", whatever their window looks like.
+    /// Empty by default and rarely needed: full-screen and cursor-capturing applications are both
+    /// detected generically, so this is only for a game that runs windowed *and* leaves the cursor
+    /// free. Names are matched case-insensitively, with or without the <c>.exe</c>.
     /// </summary>
     public List<string> BlockedProcesses
     {

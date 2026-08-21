@@ -142,13 +142,24 @@ flowchart LR
     class B stop
 ```
 
-A game counts as "in the foreground" when either:
+**This works for any game, with nothing to configure.** Detection is behavioural — it asks what the
+foreground application is *doing*, never which application it is — so a title released long after
+this code was written is covered on the same terms as anything else. Three signals, covering the
+three ways games actually run:
 
-- Windows reports an exclusive full-screen Direct3D app, **or** the foreground window covers an
-  entire monitor — this second test is what catches borderless windowed, which is how most games
-  actually run; or
-- the foreground process is named in `blockedProcesses`, which covers a game played in an ordinary
-  window. `League of Legends` is listed by default.
+| Signal | Catches |
+|---|---|
+| Windows reports an exclusive full-screen Direct3D app | Classic full-screen games |
+| The foreground window covers an entire monitor | Borderless windowed, how most modern games run |
+| The cursor is confined to less than the whole desktop | Games running in a genuine window, which lock the mouse |
+
+For the rare game that runs windowed *and* leaves the cursor free, `blockedProcesses` takes process
+names. It ships empty — the signals above are expected to do the work — and is matched
+case-insensitively, with or without the `.exe`:
+
+```jsonc
+"blockedProcesses": ["SomeGame", "AnotherGame.exe"]
+```
 
 The guard applies to the hotkey only. The tray menu, a double-click on the icon and the command line
 all switch unconditionally — reaching any of them means you already left the game. Alt-tabbing out or
@@ -189,7 +200,7 @@ optional:
   "showNotifications": true,       // tray balloons
   "retryCount": 1,                 // retries for a monitor that did not respond
   "blockWhileGaming": true,        // swallow the first press while a game is in front
-  "blockedProcesses": ["League of Legends"],  // always a game, even windowed
+  "blockedProcesses": [],         // extra process names that always count as a game
   "overrideWindowMs": 1500,        // how long a second press counts as "I meant it"; 0 disables
   "monitorTargets": {              // a different target for one specific monitor
     "\\\\?\\DISPLAY#ACI27E7#5&...": "HDMI2"
