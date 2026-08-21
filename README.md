@@ -1,128 +1,286 @@
-<div dir="rtl">
+<div align="center">
+
+<img src="docs/logo.svg" width="104" alt="">
 
 # ScreenSwitch
 
-מעביר את שני המסכים בין מחשב העבודה למחשב האישי בלחיצת כפתור אחת — בלי לקום ובלי לגעת בכפתורי המסך.
+**One keypress moves both monitors between your work computer and your personal one.**
 
-אייקון קטן במגש המערכת (ליד השעון) + קיצור מקלדת גלובלי `Ctrl+Alt+S`.
+No reaching behind the desk. No cycling through the monitor's OSD buttons.
 
-## איך זה עובד
+[![build](https://github.com/adirangel/switch/actions/workflows/build.yml/badge.svg)](https://github.com/adirangel/switch/actions/workflows/build.yml)
+![platform](https://img.shields.io/badge/platform-Windows-0078D4?logo=windows&logoColor=white)
+![dotnet](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)
+![protocol](https://img.shields.io/badge/protocol-DDC%2FCI-0EA5E9)
 
-מסכים מודרניים תומכים ב-**DDC/CI** — פרוטוקול שליטה שרץ על גבי כבל הווידאו עצמו, ומאפשר לשלוח למסך
-בדיוק את אותן פקודות שכפתורי ה-OSD שולחים. הפקודה הרלוונטית היא `0x60` ("Input Select"), וכתיבה
-אליה מחליפה את מקור הקלט הפעיל.
+</div>
 
-המשמעות המעשית: **המחשב שאתה יושב עליו כרגע הוא זה ששולח את המסכים למחשב השני.** לכן מתקינים את
-האפליקציה על שני המחשבים — בכל אחד היעד מוגדר למחשב *האחר*:
+---
 
-| המחשב | מחובר דרך | היעד שמוגדר בו | מה קורה בלחיצה |
+## How it works
+
+Modern monitors support **DDC/CI**, a control protocol that rides on the video cable itself and
+accepts exactly the same commands the physical OSD buttons issue. The relevant one is VCP feature
+`0x60`, *Input Select*; writing to it changes the active input.
+
+Both monitors are wired to both machines at once — one input per computer:
+
+```mermaid
+flowchart TD
+    W["Work PC"]:::pc
+    P["Personal laptop"]:::pc
+    M1["Monitor 1"]:::mon
+    M2["Monitor 2"]:::mon
+
+    W -- "HDMI" --> M1
+    W -- "HDMI" --> M2
+    P -- "DisplayPort" --> M1
+    P -- "DisplayPort" --> M2
+
+    classDef pc fill:#2563EB,stroke:#1E40AF,color:#FFFFFF
+    classDef mon fill:#0EA5E9,stroke:#0369A1,color:#FFFFFF
+```
+
+So the practical consequence is this: **the computer you are sitting at is the one that pushes the
+monitors over to the other machine.** That is why the app goes on both — each configured to send the
+displays to the *other* one:
+
+| Machine | Connected via | Target configured on it | Pressing the hotkey there |
 |---|---|---|---|
-| מחשב עבודה | HDMI | `DisplayPort1` | המסכים עוברים למחשב האישי |
-| מחשב אישי (לפטופ) | DisplayPort | `HDMI1` (או `HDMI2`) | המסכים עוברים למחשב העבודה |
+| Work PC | HDMI | `DisplayPort1` | Monitors jump to the personal laptop |
+| Personal laptop | DisplayPort | `HDMI1` (or `HDMI2`) | Monitors jump to the work PC |
 
-## התקנה
+---
 
-### 1. השגת קובץ ההרצה
+## Installation
 
-הדרך המהירה: ב-GitHub, לשונית **Actions** ← ה-run האחרון של `build` ← להוריד את ה-artifact בשם
-`ScreenSwitch-win-x64`. בפנים יש `ScreenSwitch.exe` יחיד — self-contained, לא דורש התקנת .NET,
-לא דורש הרשאות אדמין. שים אותו בתיקייה קבועה (למשל `C:\Tools\ScreenSwitch\`).
+### 1 · Get the executable
 
-לחלופין, בנייה מקומית:
+Open the **Actions** tab, pick the most recent `build` run, and download the `ScreenSwitch-win-x64`
+artifact. Inside is a single `ScreenSwitch.exe` — self-contained, no .NET install required, no
+administrator rights required. Put it somewhere permanent, such as `C:\Tools\ScreenSwitch\`.
 
-<div dir="ltr">
+> [!NOTE]
+> Windows will almost certainly show a **SmartScreen** warning the first time — *"Windows protected
+> your PC"*. That is a reputation prompt, not a virus detection: the file is unsigned and brand new.
+> Click **More info → Run anyway**, or right-click the downloaded ZIP → Properties → tick
+> **Unblock** before extracting, which avoids the prompt entirely.
+
+Prefer to build it yourself:
 
 ```powershell
 dotnet publish src/ScreenSwitch/ScreenSwitch.csproj -c Release -r win-x64 -o publish
 ```
 
-</div>
+### 2 · First run, on **each** of the two machines
 
-### 2. הפעלה ראשונה — על **כל אחד** משני המחשבים
+1. Confirm DDC/CI is enabled on both monitors: OSD → **System Setup** → **DDC/CI** → **On**.
+   It usually is by default.
+2. Run `ScreenSwitch.exe`. A blue icon with arrows appears in the tray.
+3. Right-click → **Monitor details…** to see what was detected, which input each monitor is on, and
+   which inputs it supports. This is also how you learn whether the work PC sits on `HDMI1` or
+   `HDMI2`.
+4. Right-click → **Switch to** → pick the input belonging to the **other** computer. That first
+   choice is saved as the standing target, and from then on `Ctrl+Alt+S` works.
+5. Answer **yes** when asked about starting with Windows.
 
-1. ודא ש-DDC/CI פעיל בשני המסכים: בתפריט ה-OSD של ה-ASUS ← **System Setup** ← **DDC/CI** ← **On**.
-   (בדרך כלל פעיל כברירת מחדל.)
-2. הרץ את `ScreenSwitch.exe`. יופיע אייקון כחול עם חיצים במגש המערכת.
-3. לחיצה ימנית על האייקון ← **פרטי מסכים…** — כאן רואים אילו מסכים זוהו, מה הקלט הפעיל כרגע
-   ואילו קלטים נתמכים. זה גם המקום לוודא אם מחשב העבודה יושב על `HDMI1` או על `HDMI2`.
-4. לחיצה ימנית ← **עבור אל** ← בחר את הקלט של **המחשב השני**. הבחירה הראשונה נשמרת אוטומטית
-   כיעד קבוע, ומאותו רגע `Ctrl+Alt+S` עובד.
-5. לחיצה ימנית ← סמן **הפעל עם Windows**, כדי שהאפליקציה תעלה לבד אחרי אתחול.
+Then repeat on the second machine, targeting the first machine's input.
 
-חזור על אותם צעדים במחשב השני, רק שהפעם היעד הוא הקלט של המחשב הראשון.
+> [!TIP]
+> The tray interface is in Hebrew. Menu items appear below in English with the Hebrew label
+> alongside: **Monitor details…** (פרטי מסכים…), **Switch to** (עבור אל), **Start with Windows**
+> (הפעל עם Windows).
 
-## שימוש יומיומי
+### 3 · Auto-start
 
-- **`Ctrl+Alt+S`** — מעביר את שני המסכים למחשב השני.
-- **דאבל-קליק על האייקון** — אותו דבר.
-- **לחיצה ימנית** — תפריט מלא: מעבר חד-פעמי לקלט אחר, שינוי היעד הקבוע, זיהוי מסכים מחדש.
-
-## שורת פקודה
-
-שימושי לבדיקות, ולקישור המעבר ל-Stream Deck / כל תוכנה שיודעת להריץ קובץ:
-
-<div dir="ltr">
+The first-run prompt covers it. To change your mind later, toggle **Start with Windows** in the tray
+menu, or use the command line:
 
 ```powershell
-ScreenSwitch.exe --list          # מה מחובר, מה הקלט הפעיל, אילו קלטים נתמכים
-ScreenSwitch.exe --switch        # מעבר ליעד שמוגדר בקובץ ההגדרות
-ScreenSwitch.exe --to HDMI2      # מעבר לקלט מסוים
+ScreenSwitch.exe --autostart on
+ScreenSwitch.exe --autostart off
+ScreenSwitch.exe --autostart        # report current state
 ```
 
-</div>
+This writes one value under `HKCU\Software\Microsoft\Windows\CurrentVersion\Run` — per-user, so it
+never needs administrator rights. Once enabled it shows up as **ScreenSwitch** in Task Manager →
+Startup.
 
-## קובץ ההגדרות
+> [!IMPORTANT]
+> The first-run prompt only appears when no target is configured yet. If you are upgrading from an
+> earlier build you already have a config, so use the menu toggle or `--autostart on` instead.
 
-נמצא ב-`%APPDATA%\ScreenSwitch\config.json` (נפתח ישירות מהתפריט). כל השדות אופציונליים:
+---
 
-<div dir="ltr">
+## Daily use
+
+| Action | What happens |
+|---|---|
+| `Ctrl+Alt+S` | Both monitors go to the other computer |
+| Double-click the tray icon | The same thing |
+| Right-click the tray icon | Full menu: one-off switch, change the standing target, re-detect monitors |
+
+---
+
+## Gaming: not switching mid-match
+
+A global hotkey fires wherever you are, and losing both displays during a teamfight is a bad time to
+discover that. So while a game is in the foreground the first press is swallowed; press again within
+1.5 seconds and it goes through.
+
+```mermaid
+flowchart LR
+    K(["Ctrl+Alt+S"]) --> G{"Game in the<br/>foreground?"}
+    G -- "no" --> S["Switch both monitors"]
+    G -- "yes" --> F{"Pressed again<br/>within 1.5s?"}
+    F -- "yes" --> S
+    F -- "no" --> B["Swallowed<br/>tray balloon explains why"]
+
+    classDef go fill:#2563EB,stroke:#1E40AF,color:#FFFFFF
+    classDef stop fill:#64748B,stroke:#475569,color:#FFFFFF
+    class S go
+    class B stop
+```
+
+**This works for any game, with nothing to configure.** Detection is behavioural — it asks what the
+foreground application is *doing*, never which application it is — so a title released long after
+this code was written is covered on the same terms as anything else. Three signals, covering the
+three ways games actually run:
+
+| Signal | Catches |
+|---|---|
+| Windows reports an exclusive full-screen Direct3D app | Classic full-screen games |
+| The foreground window covers an entire monitor | Borderless windowed, how most modern games run |
+| The cursor is confined to less than the whole desktop | Games running in a genuine window, which lock the mouse |
+
+For the rare game that runs windowed *and* leaves the cursor free, `blockedProcesses` takes process
+names. It ships empty — the signals above are expected to do the work — and is matched
+case-insensitively, with or without the `.exe`:
+
+```jsonc
+"blockedProcesses": ["SomeGame", "AnotherGame.exe"]
+```
+
+The guard applies to the hotkey only. The tray menu, a double-click on the icon and the command line
+all switch unconditionally — reaching any of them means you already left the game. Alt-tabbing out or
+minimising drops the guard too, so the hotkey behaves normally the moment you are back on the
+desktop. Set `"blockWhileGaming": false` to turn the whole thing off.
+
+> [!NOTE]
+> While ScreenSwitch is running, Windows delivers `Ctrl+Alt+S` to it and to nothing else — the
+> combination is invisible to every other application, games included. If you ever want that chord
+> inside a game, change `hotkey` to something a game will never use, such as `Ctrl+Alt+F12`.
+
+---
+
+## Command line
+
+Useful for diagnostics, and for binding the switch to a Stream Deck or anything else that can run a
+file:
+
+| Command | Does |
+|---|---|
+| `ScreenSwitch.exe --list` | What is connected, current input, supported inputs |
+| `ScreenSwitch.exe --switch` | Switch to the target from the config file |
+| `ScreenSwitch.exe --to HDMI2` | Switch to a specific input |
+| `ScreenSwitch.exe --autostart on` | Start with Windows |
+
+---
+
+## Configuration
+
+Stored at `%APPDATA%\ScreenSwitch\config.json`, openable straight from the tray menu. Every field is
+optional:
 
 ```jsonc
 {
-  "targetInput": "DisplayPort1",   // לאן המסכים עוברים מהמחשב הזה
-  "hotkey": "Ctrl+Alt+S",          // כל צירוף עם Ctrl/Alt/Shift/Win + אות, ספרה או F1-F24
-  "delayBetweenMonitorsMs": 150,   // השהייה בין מסך למסך
-  "showNotifications": true,       // בלונים במגש המערכת
-  "retryCount": 1,                 // ניסיונות חוזרים למסך שלא הגיב
-  "monitorTargets": {              // יעד שונה למסך מסוים (לפי המזהה מ"פרטי מסכים")
+  "targetInput": "DisplayPort1",   // where the monitors go from this machine
+  "hotkey": "Ctrl+Alt+S",          // Ctrl/Alt/Shift/Win + letter, digit or F1-F24
+  "delayBetweenMonitorsMs": 150,   // pause between one monitor and the next
+  "showNotifications": true,       // tray balloons
+  "retryCount": 1,                 // retries for a monitor that did not respond
+  "blockWhileGaming": true,        // swallow the first press while a game is in front
+  "blockedProcesses": [],         // extra process names that always count as a game
+  "overrideWindowMs": 1500,        // how long a second press counts as "I meant it"; 0 disables
+  "monitorTargets": {              // a different target for one specific monitor
     "\\\\?\\DISPLAY#ACI27E7#5&...": "HDMI2"
   }
 }
 ```
 
-</div>
+`targetInput` accepts names (`HDMI1`, `HDMI 2`, `DisplayPort1`), aliases (`DP`, `HDMI`) or a raw
+value (`0x11`). `monitorTargets` is only needed when the two monitors are wired to different ports —
+one on HDMI 1 and the other on HDMI 2, say. Names in `blockedProcesses` and keys in `monitorTargets`
+are both matched case-insensitively, and process names work with or without the `.exe`.
 
-`targetInput` מקבל שמות (`HDMI1`, `HDMI 2`, `DisplayPort1`), קיצורים (`DP`, `HDMI`) או ערך
-גולמי (`0x11`). `monitorTargets` נחוץ רק אם שני המסכים מחוברים לפורטים שונים — למשל אחד ל-HDMI 1
-והשני ל-HDMI 2.
+---
 
-## פתרון תקלות
+## Troubleshooting
 
-**"המסך לא הגיב לפקודת DDC/CI"** — כמעט תמיד DDC/CI כבוי ב-OSD. בדוק **System Setup ← DDC/CI ← On**
-בכל מסך בנפרד.
+<details>
+<summary><strong>"The monitor did not respond to the DDC/CI command"</strong></summary>
 
-**מסך אחד עובר והשני לא** — הרץ `--list` ובדוק אם שניהם מזוהים. אם השני לא מופיע כלל, נסה
-כבל אחר או פורט אחר; אם הוא מופיע אבל נכשל, נסה להעלות את `retryCount` ל-2 ואת
-`delayBetweenMonitorsMs` ל-300.
+Nearly always DDC/CI switched off in the OSD. Check **System Setup → DDC/CI → On** on each monitor
+separately — they are configured independently.
 
-**המעבר עובד אבל לפורט הלא נכון** — שני מסכים על פורטים שונים. השתמש ב-`monitorTargets`.
+</details>
 
-**קיצור המקלדת לא עובד** — תוכנה אחרת תפסה את הצירוף (יופיע בלון בהפעלה). שנה את `hotkey`
-בקובץ ההגדרות והפעל מחדש.
+<details>
+<summary><strong>One monitor switches, the other does not</strong></summary>
 
-**חיבור דרך דוק / USB-C** — DDC בדרך כלל עובר תקין דרך דוקים, אבל לא תמיד. אם המסכים לא מזוהים
-דרך הדוק, חבר את ה-DisplayPort ישירות ללפטופ.
+Run `--list` and check that both are detected. If the second does not appear at all, try another
+cable or port. If it appears but fails, raise `retryCount` to 2 and `delayBetweenMonitorsMs` to 300.
 
-**המסכים עברו ואי אפשר לחזור** — לוחצים `Ctrl+Alt+S` על המחשב השני. אם משהו השתבש לגמרי, תמיד
-אפשר לחזור ידנית דרך כפתורי המסך.
+</details>
 
-## מבנה הפרויקט
+<details>
+<summary><strong>It switches, but to the wrong port</strong></summary>
 
-| נתיב | תפקיד |
+The two monitors are on different ports. Use `monitorTargets` to give one of them its own target.
+
+</details>
+
+<details>
+<summary><strong>The hotkey does nothing</strong></summary>
+
+Either another application already owns the combination — a balloon says so at startup, so change
+`hotkey` in the config and restart — or a game is in the foreground and the guard swallowed the
+press. Press again within 1.5 seconds, or read the balloon.
+
+</details>
+
+<details>
+<summary><strong>It does not start with Windows despite the tick</strong></summary>
+
+Disabling the entry in Task Manager → Startup writes a separate flag that overrides the Run key. The
+tray menu only reads the Run key, so it still shows ticked. Re-enable it in Task Manager.
+
+</details>
+
+<details>
+<summary><strong>Connected through a dock or USB-C</strong></summary>
+
+DDC usually passes through docks, but not always. If the monitors are not detected through the dock,
+connect DisplayPort straight to the laptop.
+
+</details>
+
+<details>
+<summary><strong>The monitors switched and now I cannot switch back</strong></summary>
+
+Press `Ctrl+Alt+S` on the other computer. If something has gone badly wrong, the monitor's own
+buttons always still work.
+
+</details>
+
+---
+
+## Project layout
+
+| Path | Role |
 |---|---|
-| `src/ScreenSwitch.Core/` | לוגיקה נטולת-פלטפורמה: פירוק capabilities, קונפיג, קיצורי מקלדת |
-| `src/ScreenSwitch/` | אפליקציית המגש: WinForms, P/Invoke ל-`dxva2.dll`, שורת פקודה |
-| `tests/ScreenSwitch.Tests/` | בדיקות יחידה על `ScreenSwitch.Core` |
-| `tools/make_icon.py` | מייצר מחדש את `Resources/app.ico` |
-
-</div>
+| `src/ScreenSwitch.Core/` | Platform-neutral logic: capabilities parsing, config, hotkeys, the gaming guard |
+| `src/ScreenSwitch/` | The tray app: WinForms, P/Invoke to `dxva2.dll`, command line |
+| `tests/ScreenSwitch.Tests/` | Unit tests over `ScreenSwitch.Core` |
+| `tools/make_icon.py` | Regenerates `Resources/app.ico` |
+| `docs/logo.svg` | The mark above, matching the tray icon |

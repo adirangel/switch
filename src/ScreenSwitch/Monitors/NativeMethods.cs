@@ -124,4 +124,59 @@ internal static class NativeMethods
     [DllImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+    // ------------------------------------------------- foreground / game detection
+
+    internal const uint MonitorDefaultToNearest = 0x00000002;
+
+    /// <summary>
+    /// Values from <c>SHQueryUserNotificationState</c>. Windows uses this itself to decide whether
+    /// popping a notification would interrupt something, which is exactly the question the guard
+    /// asks before switching monitors.
+    /// </summary>
+    internal enum UserNotificationState
+    {
+        NotPresent = 1,
+        Busy = 2,
+        RunningD3dFullScreen = 3,
+        PresentationMode = 4,
+        AcceptsNotifications = 5,
+        QuietTime = 6,
+        App = 7,
+    }
+
+    [DllImport("user32.dll", SetLastError = true)]
+    internal static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool GetWindowRect(IntPtr hWnd, out Rect lpRect);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassNameW", SetLastError = true)]
+    internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    internal static extern IntPtr MonitorFromWindow(IntPtr hWnd, uint dwFlags);
+
+    [DllImport("shell32.dll")]
+    internal static extern int SHQueryUserNotificationState(out UserNotificationState pquns);
+
+    internal const int SmXVirtualScreen = 76;
+    internal const int SmYVirtualScreen = 77;
+    internal const int SmCxVirtualScreen = 78;
+    internal const int SmCyVirtualScreen = 79;
+
+    /// <summary>
+    /// The rectangle the cursor is currently confined to. With no confinement in force this is the
+    /// whole virtual desktop, so a smaller rectangle means something has captured the mouse.
+    /// </summary>
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool GetClipCursor(out Rect lpRect);
+
+    [DllImport("user32.dll")]
+    internal static extern int GetSystemMetrics(int nIndex);
 }
