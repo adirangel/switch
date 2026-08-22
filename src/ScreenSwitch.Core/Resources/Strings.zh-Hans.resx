@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_AlreadyRunning" xml:space="preserve">
+    <value>ScreenSwitch 已在运行。请在时钟旁的通知区域中查找图标。</value>
+  </data>
+  <data name="Startup_CannotOpenRegistryKey" xml:space="preserve">
+    <value>无法打开注册表项</value>
+  </data>
+  <data name="Monitor_NoDdcResponse" xml:space="preserve">
+    <value>显示器未响应 DDC/CI 命令（其菜单中的 DDC/CI 可能已关闭）</value>
+  </data>
+  <data name="Monitor_NoTargetConfigured" xml:space="preserve">
+    <value>未配置目标输入源</value>
+  </data>
+  <data name="Cli_Error" xml:space="preserve">
+    <value>错误：{0}</value>
+  </data>
+  <data name="Cli_HelpIntro" xml:space="preserve">
+    <value>ScreenSwitch — 通过 DDC/CI 在计算机之间切换显示器输入源。</value>
+  </data>
+  <data name="Cli_HelpTrayDesc" xml:space="preserve">
+    <value>作为系统托盘图标运行</value>
+  </data>
+  <data name="Cli_HelpSwitchDesc" xml:space="preserve">
+    <value>切换到配置文件中设定的目标</value>
+  </data>
+  <data name="Cli_HelpToDesc" xml:space="preserve">
+    <value>切换到指定输入源 (DisplayPort1 / HDMI1 / HDMI2 / 0x11)</value>
+  </data>
+  <data name="Cli_HelpListDesc" xml:space="preserve">
+    <value>显示显示器、当前输入源和支持的输入源</value>
+  </data>
+  <data name="Cli_HelpAutostartDesc" xml:space="preserve">
+    <value>随 Windows 自动启动</value>
+  </data>
+  <data name="Cli_ConfigFile" xml:space="preserve">
+    <value>配置文件：{0}</value>
+  </data>
+  <data name="Cli_AutostartOn" xml:space="preserve">
+    <value>自动启动：已启用</value>
+  </data>
+  <data name="Cli_AutostartOff" xml:space="preserve">
+    <value>自动启动：已禁用</value>
+  </data>
+  <data name="Cli_AutostartUnknownValue" xml:space="preserve">
+    <value>无法识别的值：{0}。请使用 on 或 off。</value>
+  </data>
+  <data name="Cli_AutostartFailed" xml:space="preserve">
+    <value>无法更改自动启动：{0}</value>
+  </data>
+  <data name="Cli_AutostartEnabled" xml:space="preserve">
+    <value>已启用自动启动。重启后 ScreenSwitch 将自动运行。</value>
+  </data>
+  <data name="Cli_AutostartDisabled" xml:space="preserve">
+    <value>已禁用自动启动。</value>
+  </data>
+  <data name="Cli_NoMonitors" xml:space="preserve">
+    <value>未找到支持 DDC/CI 的显示器。</value>
+  </data>
+  <data name="Cli_UnknownInput" xml:space="preserve">
+    <value>未知的输入源：{0}</value>
+  </data>
+  <data name="Cli_MissingValue" xml:space="preserve">
+    <value>（缺失）</value>
+  </data>
+  <data name="Cli_PossibleValues" xml:space="preserve">
+    <value>可用值：{0}</value>
+  </data>
+  <data name="Cli_NoTargetConfigured" xml:space="preserve">
+    <value>未配置目标输入源。请运行 --to &lt;input&gt; 或在配置文件中设置 targetInput。</value>
+  </data>
+  <data name="Tray_ConfigReadErrorTitle" xml:space="preserve">
+    <value>无法读取配置文件</value>
+  </data>
+  <data name="Tray_ConfigReadErrorBody" xml:space="preserve">
+    <value>{0}
+已加载默认设置。</value>
+  </data>
+  <data name="Tray_BlockedFullscreenApp" xml:space="preserve">
+    <value>全屏应用程序</value>
+  </data>
+  <data name="Tray_BlockedTitle" xml:space="preserve">
+    <value>已阻止切换</value>
+  </data>
+  <data name="Tray_BlockedBody" xml:space="preserve">
+    <value>{0} 正在运行。再次按下快捷键即可强制切换。</value>
+  </data>
+  <data name="Tray_NoTargetTitle" xml:space="preserve">
+    <value>需要设置目标</value>
+  </data>
+  <data name="Tray_NoTargetBody" xml:space="preserve">
+    <value>打开 ScreenSwitch 菜单并选择“切换到”，以选定要切换的输入源。</value>
+  </data>
+  <data name="Tray_Switching" xml:space="preserve">
+    <value>ScreenSwitch — 正在切换显示器…</value>
+  </data>
+  <data name="Tray_SwitchFailedTitle" xml:space="preserve">
+    <value>切换失败</value>
+  </data>
+  <data name="Tray_SwitchPartialTitle" xml:space="preserve">
+    <value>切换部分成功</value>
+  </data>
+  <data name="Tray_NoMonitorsTitle" xml:space="preserve">
+    <value>未找到显示器</value>
+  </data>
+  <data name="Tray_NoMonitorsBody" xml:space="preserve">
+    <value>未检测到支持 DDC/CI 的显示器。请检查显示器菜单中的 DDC/CI 是否已启用。</value>
+  </data>
+  <data name="Tray_TheTarget" xml:space="preserve">
+    <value>目标输入源</value>
+  </data>
+  <data name="Tray_SwitchedTitle" xml:space="preserve">
+    <value>显示器已切换</value>
+  </data>
+  <data name="Tray_SwitchedBody" xml:space="preserve">
+    <value>所有显示器已切换到 {0}。</value>
+  </data>
+  <data name="Tray_DetectFailedTitle" xml:space="preserve">
+    <value>显示器检测失败</value>
+  </data>
+  <data name="Tray_FirstRunTitle" xml:space="preserve">
+    <value>ScreenSwitch 正在运行</value>
+  </data>
+  <data name="Tray_FirstRunBody" xml:space="preserve">
+    <value>右键点击图标并选择“切换到”，以设定显示器从这台计算机切换到哪个输入源。</value>
+  </data>
+  <data name="Tray_AutostartPromptBody" xml:space="preserve">
+    <value>是否让 ScreenSwitch 随 Windows 自动启动？
+
+这样重启后即可直接切换显示器，无需手动运行程序。
+你随时可以从图标菜单中更改此设置。</value>
+  </data>
+  <data name="Tray_AutostartFailedTitle" xml:space="preserve">
+    <value>无法更改自动启动</value>
+  </data>
+  <data name="Tray_UnknownError" xml:space="preserve">
+    <value>未知错误</value>
+  </data>
+  <data name="Tray_SaveConfigFailedTitle" xml:space="preserve">
+    <value>无法保存设置</value>
+  </data>
+  <data name="Tray_HotkeyFailedTitle" xml:space="preserve">
+    <value>未能注册键盘快捷键</value>
+  </data>
+  <data name="Tray_HotkeyFailedBody" xml:space="preserve">
+    <value>{0} 可能已被其他应用占用。你可以在配置文件中更改。托盘图标仍可正常使用。</value>
+  </data>
+  <data name="Tray_HeaderNoTarget" xml:space="preserve">
+    <value>ScreenSwitch — 未设置目标</value>
+  </data>
+  <data name="Tray_HeaderTarget" xml:space="preserve">
+    <value>ScreenSwitch — 目标：{0}</value>
+  </data>
+  <data name="Tray_SwitchNow" xml:space="preserve">
+    <value>切换到另一台计算机   ({0})</value>
+  </data>
+  <data name="Tray_SwitchTo" xml:space="preserve">
+    <value>切换到</value>
+  </data>
+  <data name="Tray_SetDefault" xml:space="preserve">
+    <value>设置固定目标</value>
+  </data>
+  <data name="Tray_MonitorDetails" xml:space="preserve">
+    <value>显示器详情…</value>
+  </data>
+  <data name="Tray_RedetectMonitors" xml:space="preserve">
+    <value>重新检测显示器</value>
+  </data>
+  <data name="Tray_OpenConfigFile" xml:space="preserve">
+    <value>打开配置文件</value>
+  </data>
+  <data name="Tray_StartWithWindows" xml:space="preserve">
+    <value>随 Windows 启动</value>
+  </data>
+  <data name="Tray_Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Tray_LanguageAutomatic" xml:space="preserve">
+    <value>自动（跟随 Windows）</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="Tray_ActiveMarker" xml:space="preserve">
+    <value>  （当前使用）</value>
+  </data>
+  <data name="Tooltip_Now" xml:space="preserve">
+    <value> — 当前：{0}</value>
+  </data>
+  <data name="Tray_CannotOpenConfigTitle" xml:space="preserve">
+    <value>无法打开配置文件</value>
+  </data>
+  <data name="Details_Title" xml:space="preserve">
+    <value>ScreenSwitch — 显示器详情</value>
+  </data>
+  <data name="Details_CheckOsd" xml:space="preserve">
+    <value>请检查显示器 OSD 菜单：System Setup -&gt; DDC/CI -&gt; On</value>
+  </data>
+  <data name="Details_Device" xml:space="preserve">
+    <value>  设备：{0}</value>
+  </data>
+  <data name="Details_Id" xml:space="preserve">
+    <value>  标识：{0}</value>
+  </data>
+  <data name="Details_CurrentInput" xml:space="preserve">
+    <value>  当前输入源：{0}</value>
+  </data>
+  <data name="Details_Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="Details_SupportedInputs" xml:space="preserve">
+    <value>  支持的输入源：{0}</value>
+  </data>
+  <data name="Details_Error" xml:space="preserve">
+    <value>  错误：{0}</value>
+  </data>
+  <data name="Details_ConfigFile" xml:space="preserve">
+    <value>配置文件：{0}</value>
+  </data>
+</root>

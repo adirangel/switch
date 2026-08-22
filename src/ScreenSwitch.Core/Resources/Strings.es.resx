@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_AlreadyRunning" xml:space="preserve">
+    <value>ScreenSwitch ya se está ejecutando. Busca el icono en el área de notificación, junto al reloj.</value>
+  </data>
+  <data name="Startup_CannotOpenRegistryKey" xml:space="preserve">
+    <value>No se pudo abrir la clave del registro</value>
+  </data>
+  <data name="Monitor_NoDdcResponse" xml:space="preserve">
+    <value>El monitor no respondió al comando DDC/CI (puede que DDC/CI esté desactivado en su menú)</value>
+  </data>
+  <data name="Monitor_NoTargetConfigured" xml:space="preserve">
+    <value>No hay una entrada de destino configurada</value>
+  </data>
+  <data name="Cli_Error" xml:space="preserve">
+    <value>Error: {0}</value>
+  </data>
+  <data name="Cli_HelpIntro" xml:space="preserve">
+    <value>ScreenSwitch: cambia la entrada de los monitores entre equipos mediante DDC/CI.</value>
+  </data>
+  <data name="Cli_HelpTrayDesc" xml:space="preserve">
+    <value>ejecutar como icono en la bandeja del sistema</value>
+  </data>
+  <data name="Cli_HelpSwitchDesc" xml:space="preserve">
+    <value>cambiar al destino definido en el archivo de configuración</value>
+  </data>
+  <data name="Cli_HelpToDesc" xml:space="preserve">
+    <value>cambiar a una entrada concreta (DisplayPort1 / HDMI1 / HDMI2 / 0x11)</value>
+  </data>
+  <data name="Cli_HelpListDesc" xml:space="preserve">
+    <value>mostrar monitores, entrada actual y entradas compatibles</value>
+  </data>
+  <data name="Cli_HelpAutostartDesc" xml:space="preserve">
+    <value>iniciar automáticamente con Windows</value>
+  </data>
+  <data name="Cli_ConfigFile" xml:space="preserve">
+    <value>Archivo de configuración: {0}</value>
+  </data>
+  <data name="Cli_AutostartOn" xml:space="preserve">
+    <value>Inicio automático: activado</value>
+  </data>
+  <data name="Cli_AutostartOff" xml:space="preserve">
+    <value>Inicio automático: desactivado</value>
+  </data>
+  <data name="Cli_AutostartUnknownValue" xml:space="preserve">
+    <value>Valor no reconocido: {0}. Usa on u off.</value>
+  </data>
+  <data name="Cli_AutostartFailed" xml:space="preserve">
+    <value>No se pudo cambiar el inicio automático: {0}</value>
+  </data>
+  <data name="Cli_AutostartEnabled" xml:space="preserve">
+    <value>Inicio automático activado. ScreenSwitch se iniciará solo tras reiniciar.</value>
+  </data>
+  <data name="Cli_AutostartDisabled" xml:space="preserve">
+    <value>Inicio automático desactivado.</value>
+  </data>
+  <data name="Cli_NoMonitors" xml:space="preserve">
+    <value>No se encontraron monitores compatibles con DDC/CI.</value>
+  </data>
+  <data name="Cli_UnknownInput" xml:space="preserve">
+    <value>Entrada desconocida: {0}</value>
+  </data>
+  <data name="Cli_MissingValue" xml:space="preserve">
+    <value>(ausente)</value>
+  </data>
+  <data name="Cli_PossibleValues" xml:space="preserve">
+    <value>Valores posibles: {0}</value>
+  </data>
+  <data name="Cli_NoTargetConfigured" xml:space="preserve">
+    <value>No hay entrada de destino configurada. Ejecuta --to &lt;entrada&gt; o define targetInput en el archivo de configuración.</value>
+  </data>
+  <data name="Tray_ConfigReadErrorTitle" xml:space="preserve">
+    <value>No se pudo leer el archivo de configuración</value>
+  </data>
+  <data name="Tray_ConfigReadErrorBody" xml:space="preserve">
+    <value>{0}
+Se cargó la configuración predeterminada.</value>
+  </data>
+  <data name="Tray_BlockedFullscreenApp" xml:space="preserve">
+    <value>Una aplicación en pantalla completa</value>
+  </data>
+  <data name="Tray_BlockedTitle" xml:space="preserve">
+    <value>Cambio bloqueado</value>
+  </data>
+  <data name="Tray_BlockedBody" xml:space="preserve">
+    <value>{0} está en ejecución. Pulsa el atajo otra vez para cambiar de todos modos.</value>
+  </data>
+  <data name="Tray_NoTargetTitle" xml:space="preserve">
+    <value>Hay que definir un destino</value>
+  </data>
+  <data name="Tray_NoTargetBody" xml:space="preserve">
+    <value>Abre el menú de ScreenSwitch y elige «Cambiar a» para seleccionar la entrada de destino.</value>
+  </data>
+  <data name="Tray_Switching" xml:space="preserve">
+    <value>ScreenSwitch: cambiando monitores…</value>
+  </data>
+  <data name="Tray_SwitchFailedTitle" xml:space="preserve">
+    <value>El cambio falló</value>
+  </data>
+  <data name="Tray_SwitchPartialTitle" xml:space="preserve">
+    <value>El cambio se completó parcialmente</value>
+  </data>
+  <data name="Tray_NoMonitorsTitle" xml:space="preserve">
+    <value>No se encontraron monitores</value>
+  </data>
+  <data name="Tray_NoMonitorsBody" xml:space="preserve">
+    <value>No se detectó ningún monitor compatible con DDC/CI. Comprueba que DDC/CI esté activado en el menú del monitor.</value>
+  </data>
+  <data name="Tray_TheTarget" xml:space="preserve">
+    <value>el destino</value>
+  </data>
+  <data name="Tray_SwitchedTitle" xml:space="preserve">
+    <value>Monitores cambiados</value>
+  </data>
+  <data name="Tray_SwitchedBody" xml:space="preserve">
+    <value>Todos los monitores cambiaron a {0}.</value>
+  </data>
+  <data name="Tray_DetectFailedTitle" xml:space="preserve">
+    <value>Falló la detección de monitores</value>
+  </data>
+  <data name="Tray_FirstRunTitle" xml:space="preserve">
+    <value>ScreenSwitch está en ejecución</value>
+  </data>
+  <data name="Tray_FirstRunBody" xml:space="preserve">
+    <value>Haz clic derecho en el icono y elige «Cambiar a» para definir a qué entrada irán los monitores desde este equipo.</value>
+  </data>
+  <data name="Tray_AutostartPromptBody" xml:space="preserve">
+    <value>¿Iniciar ScreenSwitch automáticamente con Windows?
+
+Así los monitores estarán listos para cambiar justo después de reiniciar, sin ejecutar el archivo a mano.
+Puedes cambiarlo cuando quieras desde el menú del icono.</value>
+  </data>
+  <data name="Tray_AutostartFailedTitle" xml:space="preserve">
+    <value>No se pudo cambiar el inicio automático</value>
+  </data>
+  <data name="Tray_UnknownError" xml:space="preserve">
+    <value>Error desconocido</value>
+  </data>
+  <data name="Tray_SaveConfigFailedTitle" xml:space="preserve">
+    <value>No se pudo guardar la configuración</value>
+  </data>
+  <data name="Tray_HotkeyFailedTitle" xml:space="preserve">
+    <value>No se registró el atajo de teclado</value>
+  </data>
+  <data name="Tray_HotkeyFailedBody" xml:space="preserve">
+    <value>Probablemente {0} ya lo usa otra aplicación. Puedes cambiarlo en el archivo de configuración. El icono de la bandeja sigue funcionando.</value>
+  </data>
+  <data name="Tray_HeaderNoTarget" xml:space="preserve">
+    <value>ScreenSwitch: sin destino definido</value>
+  </data>
+  <data name="Tray_HeaderTarget" xml:space="preserve">
+    <value>ScreenSwitch: destino: {0}</value>
+  </data>
+  <data name="Tray_SwitchNow" xml:space="preserve">
+    <value>Cambiar al otro equipo   ({0})</value>
+  </data>
+  <data name="Tray_SwitchTo" xml:space="preserve">
+    <value>Cambiar a</value>
+  </data>
+  <data name="Tray_SetDefault" xml:space="preserve">
+    <value>Definir destino fijo</value>
+  </data>
+  <data name="Tray_MonitorDetails" xml:space="preserve">
+    <value>Detalles de los monitores…</value>
+  </data>
+  <data name="Tray_RedetectMonitors" xml:space="preserve">
+    <value>Detectar monitores de nuevo</value>
+  </data>
+  <data name="Tray_OpenConfigFile" xml:space="preserve">
+    <value>Abrir archivo de configuración</value>
+  </data>
+  <data name="Tray_StartWithWindows" xml:space="preserve">
+    <value>Iniciar con Windows</value>
+  </data>
+  <data name="Tray_Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Tray_LanguageAutomatic" xml:space="preserve">
+    <value>Automático (según Windows)</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="Tray_ActiveMarker" xml:space="preserve">
+    <value>  (activa ahora)</value>
+  </data>
+  <data name="Tooltip_Now" xml:space="preserve">
+    <value> — ahora: {0}</value>
+  </data>
+  <data name="Tray_CannotOpenConfigTitle" xml:space="preserve">
+    <value>No se pudo abrir el archivo de configuración</value>
+  </data>
+  <data name="Details_Title" xml:space="preserve">
+    <value>ScreenSwitch: detalles de los monitores</value>
+  </data>
+  <data name="Details_CheckOsd" xml:space="preserve">
+    <value>Comprueba el menú OSD del monitor: System Setup -&gt; DDC/CI -&gt; On</value>
+  </data>
+  <data name="Details_Device" xml:space="preserve">
+    <value>  Dispositivo: {0}</value>
+  </data>
+  <data name="Details_Id" xml:space="preserve">
+    <value>  Id: {0}</value>
+  </data>
+  <data name="Details_CurrentInput" xml:space="preserve">
+    <value>  Entrada actual: {0}</value>
+  </data>
+  <data name="Details_Unknown" xml:space="preserve">
+    <value>desconocida</value>
+  </data>
+  <data name="Details_SupportedInputs" xml:space="preserve">
+    <value>  Entradas compatibles: {0}</value>
+  </data>
+  <data name="Details_Error" xml:space="preserve">
+    <value>  Error: {0}</value>
+  </data>
+  <data name="Details_ConfigFile" xml:space="preserve">
+    <value>Archivo de configuración: {0}</value>
+  </data>
+</root>

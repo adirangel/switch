@@ -45,7 +45,7 @@ internal sealed class TrayAppContext : ApplicationContext
         _configPath = configPath ?? AppConfig.DefaultPath;
         _config = AppConfig.Load(_configPath, out var configError);
 
-        _menu = new ContextMenuStrip { RightToLeft = RightToLeft.Yes, ShowImageMargin = false };
+        _menu = new ContextMenuStrip { RightToLeft = UiCulture.RightToLeft, ShowImageMargin = false };
         _menu.Opening += (_, _) => RebuildMenu();
         _boldFont = new Font(_menu.Font, FontStyle.Bold);
 
@@ -68,7 +68,7 @@ internal sealed class TrayAppContext : ApplicationContext
 
         if (configError is not null)
         {
-            Notify("שגיאה בקריאת קובץ ההגדרות", $"{configError}\nנטענו הגדרות ברירת מחדל.", ToolTipIcon.Warning);
+            Notify(Strings.Tray_ConfigReadErrorTitle, Strings.Tray_ConfigReadErrorBody(configError), ToolTipIcon.Warning);
         }
 
         // Everything above ran before Application.Run, so there is no message loop yet and no
@@ -126,10 +126,10 @@ internal sealed class TrayAppContext : ApplicationContext
 
         if (verdict == GuardVerdict.Block)
         {
-            var who = string.IsNullOrWhiteSpace(blockedBy) ? "אפליקציה במסך מלא" : blockedBy;
+            var who = string.IsNullOrWhiteSpace(blockedBy) ? Strings.Tray_BlockedFullscreenApp : blockedBy;
             Notify(
-                "המעבר נחסם",
-                $"{who} פועלת כרגע. לחץ שוב על הקיצור כדי להעביר בכל זאת.",
+                Strings.Tray_BlockedTitle,
+                Strings.Tray_BlockedBody(who),
                 ToolTipIcon.Info);
             return;
         }
@@ -152,12 +152,12 @@ internal sealed class TrayAppContext : ApplicationContext
         // failing silently.
         if (targetOverride is null && !HasAnyTarget)
         {
-            Notify("צריך להגדיר יעד", "פתח את התפריט של ScreenSwitch ובחר 'עבור אל' כדי לקבוע לאיזה קלט לעבור.", ToolTipIcon.Info);
+            Notify(Strings.Tray_NoTargetTitle, Strings.Tray_NoTargetBody, ToolTipIcon.Info);
             return;
         }
 
         _switching = true;
-        _notifyIcon.Text = Truncate("ScreenSwitch — מעביר מסכים…");
+        _notifyIcon.Text = Truncate(Strings.Tray_Switching);
 
         try
         {
@@ -167,7 +167,7 @@ internal sealed class TrayAppContext : ApplicationContext
         }
         catch (Exception ex)
         {
-            Notify("המעבר נכשל", ex.Message, ToolTipIcon.Error);
+            Notify(Strings.Tray_SwitchFailedTitle, ex.Message, ToolTipIcon.Error);
         }
         finally
         {
@@ -180,14 +180,14 @@ internal sealed class TrayAppContext : ApplicationContext
     {
         if (report.NoMonitors)
         {
-            Notify("לא נמצאו מסכים", "לא זוהה אף מסך שתומך ב-DDC/CI. ודא ש-DDC/CI מופעל בתפריט המסך.", ToolTipIcon.Warning);
+            Notify(Strings.Tray_NoMonitorsTitle, Strings.Tray_NoMonitorsBody, ToolTipIcon.Warning);
             return;
         }
 
         if (report.AllSucceeded)
         {
-            var name = target is null ? "היעד" : InputSources.DisplayName(target.Value);
-            Notify("המסכים הועברו", $"כל המסכים הועברו ל־{name}.", ToolTipIcon.Info);
+            var name = target is null ? Strings.Tray_TheTarget : InputSources.DisplayName(target.Value);
+            Notify(Strings.Tray_SwitchedTitle, Strings.Tray_SwitchedBody(name), ToolTipIcon.Info);
             return;
         }
 
@@ -200,7 +200,7 @@ internal sealed class TrayAppContext : ApplicationContext
         }
 
         Notify(
-            report.AnySucceeded ? "המעבר הצליח חלקית" : "המעבר נכשל",
+            report.AnySucceeded ? Strings.Tray_SwitchPartialTitle : Strings.Tray_SwitchFailedTitle,
             details.ToString().TrimEnd(),
             report.AnySucceeded ? ToolTipIcon.Warning : ToolTipIcon.Error);
     }
@@ -218,7 +218,7 @@ internal sealed class TrayAppContext : ApplicationContext
         catch (Exception ex)
         {
             _snapshots = [];
-            Notify("זיהוי המסכים נכשל", ex.Message, ToolTipIcon.Error);
+            Notify(Strings.Tray_DetectFailedTitle, ex.Message, ToolTipIcon.Error);
             return;
         }
 
@@ -227,8 +227,8 @@ internal sealed class TrayAppContext : ApplicationContext
         if (announceFirstRun && !HasAnyTarget)
         {
             Notify(
-                "ScreenSwitch פועל",
-                "לחץ ימני על האייקון ובחר 'עבור אל' כדי לקבוע לאיזה קלט המסכים יעברו מהמחשב הזה.",
+                Strings.Tray_FirstRunTitle,
+                Strings.Tray_FirstRunBody,
                 ToolTipIcon.Info);
         }
     }
@@ -255,18 +255,16 @@ internal sealed class TrayAppContext : ApplicationContext
         _startupOffered = true;
 
         var answer = MessageBox.Show(
-            "להפעיל את ScreenSwitch אוטומטית עם Windows?\n\n" +
-            "כך המסכים יהיו זמינים למעבר מיד אחרי אתחול, בלי להריץ את הקובץ ידנית.\n" +
-            "אפשר לשנות בכל רגע מהתפריט של האייקון.",
+            Strings.Tray_AutostartPromptBody,
             "ScreenSwitch",
             MessageBoxButtons.YesNo,
             MessageBoxIcon.Question,
             MessageBoxDefaultButton.Button1,
-            MessageBoxOptions.RightAlign | MessageBoxOptions.RtlReading);
+            UiCulture.MessageBoxOptions);
 
         if (answer == DialogResult.Yes && !StartupManager.TrySet(true, out var error))
         {
-            Notify("שינוי ההפעלה האוטומטית נכשל", error ?? "שגיאה לא ידועה", ToolTipIcon.Error);
+            Notify(Strings.Tray_AutostartFailedTitle, error ?? Strings.Tray_UnknownError, ToolTipIcon.Error);
         }
     }
 
@@ -274,7 +272,7 @@ internal sealed class TrayAppContext : ApplicationContext
     {
         if (!_config.TrySave(_configPath, out var error))
         {
-            Notify("שמירת ההגדרות נכשלה", error ?? "שגיאה לא ידועה", ToolTipIcon.Error);
+            Notify(Strings.Tray_SaveConfigFailedTitle, error ?? Strings.Tray_UnknownError, ToolTipIcon.Error);
         }
     }
 
@@ -284,8 +282,8 @@ internal sealed class TrayAppContext : ApplicationContext
         if (!_hotkeyWindow.TryRegister(spec))
         {
             Notify(
-                "קיצור המקלדת לא נרשם",
-                $"הצירוף {spec} כנראה תפוס על ידי תוכנה אחרת. אפשר לשנות אותו בקובץ ההגדרות. האייקון במגש ממשיך לעבוד.",
+                Strings.Tray_HotkeyFailedTitle,
+                Strings.Tray_HotkeyFailedBody(spec),
                 ToolTipIcon.Warning);
         }
     }
@@ -305,11 +303,11 @@ internal sealed class TrayAppContext : ApplicationContext
         var hotkey = _config.ResolveHotkey();
 
         var header = new ToolStripMenuItem(target is null
-            ? "ScreenSwitch — לא הוגדר יעד"
-            : $"ScreenSwitch — יעד: {InputSources.DisplayName(target.Value)}") { Enabled = false };
+            ? Strings.Tray_HeaderNoTarget
+            : Strings.Tray_HeaderTarget(InputSources.DisplayName(target.Value))) { Enabled = false };
         _menu.Items.Add(header);
 
-        var switchNow = new ToolStripMenuItem($"עבור למחשב השני   ({hotkey})", null, (_, _) => SwitchAsync(null))
+        var switchNow = new ToolStripMenuItem(Strings.Tray_SwitchNow(hotkey), null, (_, _) => SwitchAsync(null))
         {
             Font = _boldFont,
             Enabled = HasAnyTarget && !_switching,
@@ -318,8 +316,8 @@ internal sealed class TrayAppContext : ApplicationContext
 
         _menu.Items.Add(new ToolStripSeparator());
 
-        var switchTo = new ToolStripMenuItem("עבור אל");
-        var setDefault = new ToolStripMenuItem("קבע יעד קבוע");
+        var switchTo = new ToolStripMenuItem(Strings.Tray_SwitchTo);
+        var setDefault = new ToolStripMenuItem(Strings.Tray_SetDefault);
         foreach (var code in AvailableInputs())
         {
             var value = code;
@@ -349,18 +347,64 @@ internal sealed class TrayAppContext : ApplicationContext
 
         _menu.Items.Add(new ToolStripSeparator());
 
-        _menu.Items.Add(new ToolStripMenuItem("פרטי מסכים…", null, (_, _) => ShowMonitorDetails()));
-        _menu.Items.Add(new ToolStripMenuItem("זהה מסכים מחדש", null, async (_, _) => await RefreshMonitorsAsync()));
-        _menu.Items.Add(new ToolStripMenuItem("פתח קובץ הגדרות", null, (_, _) => OpenConfigFile()));
+        _menu.Items.Add(new ToolStripMenuItem(Strings.Tray_MonitorDetails, null, (_, _) => ShowMonitorDetails()));
+        _menu.Items.Add(new ToolStripMenuItem(Strings.Tray_RedetectMonitors, null, async (_, _) => await RefreshMonitorsAsync()));
+        _menu.Items.Add(new ToolStripMenuItem(Strings.Tray_OpenConfigFile, null, (_, _) => OpenConfigFile()));
 
-        _menu.Items.Add(new ToolStripMenuItem("הפעל עם Windows", null, (_, _) => ToggleStartup())
+        _menu.Items.Add(BuildLanguageMenu());
+
+        _menu.Items.Add(new ToolStripMenuItem(Strings.Tray_StartWithWindows, null, (_, _) => ToggleStartup())
         {
             Checked = StartupManager.IsEnabled(),
             CheckOnClick = false,
         });
 
         _menu.Items.Add(new ToolStripSeparator());
-        _menu.Items.Add(new ToolStripMenuItem("יציאה", null, (_, _) => ExitApp()));
+        _menu.Items.Add(new ToolStripMenuItem(Strings.Tray_Exit, null, (_, _) => ExitApp()));
+    }
+
+    /// <summary>
+    /// Language picker, listing each language under its own name. "Automatic" clears the setting
+    /// and goes back to following Windows, which is the default and what most people want.
+    /// </summary>
+    private ToolStripMenuItem BuildLanguageMenu()
+    {
+        var menu = new ToolStripMenuItem(Strings.Tray_Language);
+
+        menu.DropDownItems.Add(new ToolStripMenuItem(Strings.Tray_LanguageAutomatic, null, (_, _) => SetLanguage(null))
+        {
+            Checked = _config.Language is null,
+            CheckOnClick = false,
+        });
+
+        menu.DropDownItems.Add(new ToolStripSeparator());
+
+        foreach (var language in Localization.Supported)
+        {
+            var code = language.Code;
+            menu.DropDownItems.Add(new ToolStripMenuItem(language.NativeName, null, (_, _) => SetLanguage(code))
+            {
+                Checked = string.Equals(_config.Language, code, StringComparison.OrdinalIgnoreCase),
+                CheckOnClick = false,
+            });
+        }
+
+        return menu;
+    }
+
+    /// <summary>
+    /// Switches language in place. The menu is rebuilt on every open and the tooltip is refreshed
+    /// here, so the change is visible immediately; balloons already on screen keep the old text,
+    /// which is not worth chasing.
+    /// </summary>
+    private void SetLanguage(string? code)
+    {
+        _config.Language = code;
+        SaveConfig();
+
+        UiCulture.Apply(code);
+        _menu.RightToLeft = UiCulture.RightToLeft;
+        UpdateTooltip();
     }
 
     /// <summary>
@@ -394,7 +438,7 @@ internal sealed class TrayAppContext : ApplicationContext
 
     /// <summary>Marks the input a monitor is currently showing, which is always the one you are looking at.</summary>
     private string CurrentInputMarker(byte code)
-        => _snapshots.Any(s => s.CurrentInput == code) ? "  (פעיל כעת)" : string.Empty;
+        => _snapshots.Any(s => s.CurrentInput == code) ? Strings.Tray_ActiveMarker : string.Empty;
 
     private void ShowMonitorDetails()
     {
@@ -402,36 +446,36 @@ internal sealed class TrayAppContext : ApplicationContext
 
         if (_snapshots.Count == 0)
         {
-            text.AppendLine("לא נמצאו מסכים תומכי DDC/CI.");
+            text.AppendLine(Strings.Cli_NoMonitors);
             text.AppendLine();
-            text.AppendLine("בדוק שב-OSD של המסך: System Setup ← DDC/CI ← On");
+            text.AppendLine(Strings.Details_CheckOsd);
         }
 
         foreach (var snapshot in _snapshots)
         {
             text.AppendLine(snapshot.Model is null ? snapshot.Description : $"{snapshot.Description} ({snapshot.Model})");
-            text.AppendLine($"  התקן: {snapshot.DeviceName}");
-            text.AppendLine($"  מזהה: {snapshot.Key}");
-            text.AppendLine($"  קלט נוכחי: {(snapshot.CurrentInput is null ? "לא ידוע" : InputSources.DisplayName(snapshot.CurrentInput.Value))}");
-            text.AppendLine($"  קלטים נתמכים: {string.Join(", ", snapshot.SupportedInputs.Select(InputSources.DisplayName))}");
+            text.AppendLine(Strings.Details_Device(snapshot.DeviceName));
+            text.AppendLine(Strings.Details_Id(snapshot.Key));
+            text.AppendLine(Strings.Details_CurrentInput(snapshot.CurrentInput is null ? Strings.Details_Unknown : InputSources.DisplayName(snapshot.CurrentInput.Value)));
+            text.AppendLine(Strings.Details_SupportedInputs(string.Join(", ", snapshot.SupportedInputs.Select(InputSources.DisplayName))));
 
             if (snapshot.Error is not null)
             {
-                text.AppendLine($"  שגיאה: {snapshot.Error}");
+                text.AppendLine(Strings.Details_Error(snapshot.Error));
             }
 
             text.AppendLine();
         }
 
-        text.AppendLine($"קובץ ההגדרות: {_configPath}");
+        text.AppendLine(Strings.Details_ConfigFile(_configPath));
 
         MessageBox.Show(
             text.ToString(),
-            "ScreenSwitch — פרטי מסכים",
+            Strings.Details_Title,
             MessageBoxButtons.OK,
             MessageBoxIcon.Information,
             MessageBoxDefaultButton.Button1,
-            MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign);
+            UiCulture.MessageBoxOptions);
     }
 
     private void OpenConfigFile()
@@ -447,7 +491,7 @@ internal sealed class TrayAppContext : ApplicationContext
         }
         catch (Exception ex)
         {
-            Notify("לא ניתן לפתוח את קובץ ההגדרות", ex.Message, ToolTipIcon.Error);
+            Notify(Strings.Tray_CannotOpenConfigTitle, ex.Message, ToolTipIcon.Error);
         }
     }
 
@@ -456,7 +500,7 @@ internal sealed class TrayAppContext : ApplicationContext
         var enable = !StartupManager.IsEnabled();
         if (!StartupManager.TrySet(enable, out var error))
         {
-            Notify("שינוי ההפעלה האוטומטית נכשל", error ?? "שגיאה לא ידועה", ToolTipIcon.Error);
+            Notify(Strings.Tray_AutostartFailedTitle, error ?? Strings.Tray_UnknownError, ToolTipIcon.Error);
         }
     }
 
@@ -470,7 +514,7 @@ internal sealed class TrayAppContext : ApplicationContext
         var text = new StringBuilder("ScreenSwitch");
         if (current is not null)
         {
-            text.Append($" — כעת: {InputSources.DisplayName(current.Value)}");
+            text.Append(Strings.Tooltip_Now(InputSources.DisplayName(current.Value)));
         }
 
         if (target is not null)

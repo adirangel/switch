@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_AlreadyRunning" xml:space="preserve">
+    <value>ScreenSwitch はすでに実行中です。時計の横の通知領域にアイコンがあります。</value>
+  </data>
+  <data name="Startup_CannotOpenRegistryKey" xml:space="preserve">
+    <value>レジストリキーを開けませんでした</value>
+  </data>
+  <data name="Monitor_NoDdcResponse" xml:space="preserve">
+    <value>モニターが DDC/CI コマンドに応答しませんでした（モニターのメニューで DDC/CI が無効になっている可能性があります）</value>
+  </data>
+  <data name="Monitor_NoTargetConfigured" xml:space="preserve">
+    <value>対象の入力が設定されていません</value>
+  </data>
+  <data name="Cli_Error" xml:space="preserve">
+    <value>エラー: {0}</value>
+  </data>
+  <data name="Cli_HelpIntro" xml:space="preserve">
+    <value>ScreenSwitch — DDC/CI 経由でモニターの入力をコンピューター間で切り替えます。</value>
+  </data>
+  <data name="Cli_HelpTrayDesc" xml:space="preserve">
+    <value>タスクトレイのアイコンとして実行</value>
+  </data>
+  <data name="Cli_HelpSwitchDesc" xml:space="preserve">
+    <value>設定ファイルで指定した対象に切り替える</value>
+  </data>
+  <data name="Cli_HelpToDesc" xml:space="preserve">
+    <value>特定の入力に切り替える (DisplayPort1 / HDMI1 / HDMI2 / 0x11)</value>
+  </data>
+  <data name="Cli_HelpListDesc" xml:space="preserve">
+    <value>モニター、現在の入力、対応する入力を表示</value>
+  </data>
+  <data name="Cli_HelpAutostartDesc" xml:space="preserve">
+    <value>Windows と一緒に自動起動する</value>
+  </data>
+  <data name="Cli_ConfigFile" xml:space="preserve">
+    <value>設定ファイル: {0}</value>
+  </data>
+  <data name="Cli_AutostartOn" xml:space="preserve">
+    <value>自動起動: 有効</value>
+  </data>
+  <data name="Cli_AutostartOff" xml:space="preserve">
+    <value>自動起動: 無効</value>
+  </data>
+  <data name="Cli_AutostartUnknownValue" xml:space="preserve">
+    <value>認識できない値です: {0}。on または off を指定してください。</value>
+  </data>
+  <data name="Cli_AutostartFailed" xml:space="preserve">
+    <value>自動起動を変更できませんでした: {0}</value>
+  </data>
+  <data name="Cli_AutostartEnabled" xml:space="preserve">
+    <value>自動起動を有効にしました。再起動後に ScreenSwitch が自動で立ち上がります。</value>
+  </data>
+  <data name="Cli_AutostartDisabled" xml:space="preserve">
+    <value>自動起動を無効にしました。</value>
+  </data>
+  <data name="Cli_NoMonitors" xml:space="preserve">
+    <value>DDC/CI に対応したモニターが見つかりませんでした。</value>
+  </data>
+  <data name="Cli_UnknownInput" xml:space="preserve">
+    <value>不明な入力です: {0}</value>
+  </data>
+  <data name="Cli_MissingValue" xml:space="preserve">
+    <value>(未指定)</value>
+  </data>
+  <data name="Cli_PossibleValues" xml:space="preserve">
+    <value>指定できる値: {0}</value>
+  </data>
+  <data name="Cli_NoTargetConfigured" xml:space="preserve">
+    <value>対象の入力が設定されていません。--to &lt;input&gt; を実行するか、設定ファイルで targetInput を指定してください。</value>
+  </data>
+  <data name="Tray_ConfigReadErrorTitle" xml:space="preserve">
+    <value>設定ファイルを読み込めませんでした</value>
+  </data>
+  <data name="Tray_ConfigReadErrorBody" xml:space="preserve">
+    <value>{0}
+既定の設定を読み込みました。</value>
+  </data>
+  <data name="Tray_BlockedFullscreenApp" xml:space="preserve">
+    <value>全画面のアプリケーション</value>
+  </data>
+  <data name="Tray_BlockedTitle" xml:space="preserve">
+    <value>切り替えをブロックしました</value>
+  </data>
+  <data name="Tray_BlockedBody" xml:space="preserve">
+    <value>{0} が実行中です。それでも切り替えるにはショートカットをもう一度押してください。</value>
+  </data>
+  <data name="Tray_NoTargetTitle" xml:space="preserve">
+    <value>対象を設定してください</value>
+  </data>
+  <data name="Tray_NoTargetBody" xml:space="preserve">
+    <value>ScreenSwitch のメニューを開き、「切り替え先」から入力を選んでください。</value>
+  </data>
+  <data name="Tray_Switching" xml:space="preserve">
+    <value>ScreenSwitch — モニターを切り替えています…</value>
+  </data>
+  <data name="Tray_SwitchFailedTitle" xml:space="preserve">
+    <value>切り替えに失敗しました</value>
+  </data>
+  <data name="Tray_SwitchPartialTitle" xml:space="preserve">
+    <value>切り替えは一部のみ成功しました</value>
+  </data>
+  <data name="Tray_NoMonitorsTitle" xml:space="preserve">
+    <value>モニターが見つかりません</value>
+  </data>
+  <data name="Tray_NoMonitorsBody" xml:space="preserve">
+    <value>DDC/CI に対応したモニターを検出できませんでした。モニターのメニューで DDC/CI が有効か確認してください。</value>
+  </data>
+  <data name="Tray_TheTarget" xml:space="preserve">
+    <value>対象の入力</value>
+  </data>
+  <data name="Tray_SwitchedTitle" xml:space="preserve">
+    <value>モニターを切り替えました</value>
+  </data>
+  <data name="Tray_SwitchedBody" xml:space="preserve">
+    <value>すべてのモニターを {0} に切り替えました。</value>
+  </data>
+  <data name="Tray_DetectFailedTitle" xml:space="preserve">
+    <value>モニターの検出に失敗しました</value>
+  </data>
+  <data name="Tray_FirstRunTitle" xml:space="preserve">
+    <value>ScreenSwitch が実行中です</value>
+  </data>
+  <data name="Tray_FirstRunBody" xml:space="preserve">
+    <value>アイコンを右クリックし、「切り替え先」からこのコンピューターでモニターを移す入力を選んでください。</value>
+  </data>
+  <data name="Tray_AutostartPromptBody" xml:space="preserve">
+    <value>ScreenSwitch を Windows と一緒に自動起動しますか？
+
+再起動後すぐにモニターを切り替えられるようになり、手動でファイルを実行する必要がなくなります。
+この設定はアイコンのメニューからいつでも変更できます。</value>
+  </data>
+  <data name="Tray_AutostartFailedTitle" xml:space="preserve">
+    <value>自動起動を変更できませんでした</value>
+  </data>
+  <data name="Tray_UnknownError" xml:space="preserve">
+    <value>不明なエラー</value>
+  </data>
+  <data name="Tray_SaveConfigFailedTitle" xml:space="preserve">
+    <value>設定を保存できませんでした</value>
+  </data>
+  <data name="Tray_HotkeyFailedTitle" xml:space="preserve">
+    <value>キーボードショートカットを登録できませんでした</value>
+  </data>
+  <data name="Tray_HotkeyFailedBody" xml:space="preserve">
+    <value>{0} は他のアプリケーションが使用している可能性があります。設定ファイルで変更できます。トレイアイコンは引き続き使えます。</value>
+  </data>
+  <data name="Tray_HeaderNoTarget" xml:space="preserve">
+    <value>ScreenSwitch — 対象が未設定</value>
+  </data>
+  <data name="Tray_HeaderTarget" xml:space="preserve">
+    <value>ScreenSwitch — 対象: {0}</value>
+  </data>
+  <data name="Tray_SwitchNow" xml:space="preserve">
+    <value>もう一方のコンピューターに切り替え   ({0})</value>
+  </data>
+  <data name="Tray_SwitchTo" xml:space="preserve">
+    <value>切り替え先</value>
+  </data>
+  <data name="Tray_SetDefault" xml:space="preserve">
+    <value>既定の対象を設定</value>
+  </data>
+  <data name="Tray_MonitorDetails" xml:space="preserve">
+    <value>モニターの詳細…</value>
+  </data>
+  <data name="Tray_RedetectMonitors" xml:space="preserve">
+    <value>モニターを再検出</value>
+  </data>
+  <data name="Tray_OpenConfigFile" xml:space="preserve">
+    <value>設定ファイルを開く</value>
+  </data>
+  <data name="Tray_StartWithWindows" xml:space="preserve">
+    <value>Windows と一緒に起動</value>
+  </data>
+  <data name="Tray_Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Tray_LanguageAutomatic" xml:space="preserve">
+    <value>自動 (Windows に従う)</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>終了</value>
+  </data>
+  <data name="Tray_ActiveMarker" xml:space="preserve">
+    <value>  (現在有効)</value>
+  </data>
+  <data name="Tooltip_Now" xml:space="preserve">
+    <value> — 現在: {0}</value>
+  </data>
+  <data name="Tray_CannotOpenConfigTitle" xml:space="preserve">
+    <value>設定ファイルを開けませんでした</value>
+  </data>
+  <data name="Details_Title" xml:space="preserve">
+    <value>ScreenSwitch — モニターの詳細</value>
+  </data>
+  <data name="Details_CheckOsd" xml:space="preserve">
+    <value>モニターの OSD を確認してください: System Setup -&gt; DDC/CI -&gt; On</value>
+  </data>
+  <data name="Details_Device" xml:space="preserve">
+    <value>  デバイス: {0}</value>
+  </data>
+  <data name="Details_Id" xml:space="preserve">
+    <value>  ID: {0}</value>
+  </data>
+  <data name="Details_CurrentInput" xml:space="preserve">
+    <value>  現在の入力: {0}</value>
+  </data>
+  <data name="Details_Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="Details_SupportedInputs" xml:space="preserve">
+    <value>  対応する入力: {0}</value>
+  </data>
+  <data name="Details_Error" xml:space="preserve">
+    <value>  エラー: {0}</value>
+  </data>
+  <data name="Details_ConfigFile" xml:space="preserve">
+    <value>設定ファイル: {0}</value>
+  </data>
+</root>

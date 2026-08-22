@@ -37,6 +37,13 @@ public sealed class AppConfig
             : new Dictionary<string, string>(value, StringComparer.OrdinalIgnoreCase);
     }
 
+    /// <summary>
+    /// Interface language as a code from <see cref="Localization.Supported"/> ("es", "zh-Hans").
+    /// Null — the default — means follow the language Windows is running in, falling back to
+    /// English. An unrecognised value is ignored rather than fatal.
+    /// </summary>
+    public string? Language { get; set; }
+
     /// <summary>Global hotkey, parsed by <see cref="HotkeySpec.TryParse"/>.</summary>
     public string Hotkey { get; set; } = HotkeySpec.Default.ToString();
 

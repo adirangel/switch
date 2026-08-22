@@ -1,3 +1,5 @@
+using ScreenSwitch.Core;
+
 namespace ScreenSwitch;
 
 internal static class Program
@@ -7,6 +9,9 @@ internal static class Program
     [STAThread]
     private static int Main(string[] args)
     {
+        // Before anything that can produce text: every string below is looked up by culture.
+        UiCulture.ApplyFromConfig();
+
         // Command-line mode exists so the switch can be bound to anything that can run a program
         // (a Stream Deck key, a scheduled task, another launcher) and so problems can be
         // diagnosed without guessing at what the tray icon is doing.
@@ -19,12 +24,12 @@ internal static class Program
         if (!isFirstInstance)
         {
             MessageBox.Show(
-                "ScreenSwitch כבר פועל. חפש את האייקון באזור ההודעות (ליד השעון).",
+                Strings.App_AlreadyRunning,
                 "ScreenSwitch",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign);
+                UiCulture.MessageBoxOptions);
             return 0;
         }
 

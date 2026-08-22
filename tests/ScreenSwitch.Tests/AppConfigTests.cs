@@ -10,6 +10,36 @@ public class AppConfigTests : IDisposable
     private string ConfigPath => Path.Combine(_directory, "config.json");
 
     [Fact]
+    public void LanguageRoundTripsAndDefaultsToFollowingWindows()
+    {
+        Assert.Null(new AppConfig().Language);
+
+        var original = new AppConfig { TargetInput = "HDMI1", Language = "zh-Hans" };
+        original.Save(ConfigPath);
+
+        var loaded = AppConfig.Load(ConfigPath, out var error);
+
+        Assert.Null(error);
+        Assert.Equal("zh-Hans", loaded.Language);
+    }
+
+    [Fact]
+    public void AnUnknownLanguageInTheFileIsNotFatal()
+    {
+        // Hand-edited configs happen; an unusable value should fall back, not crash.
+        Directory.CreateDirectory(_directory);
+        File.WriteAllText(ConfigPath, """
+            { "targetInput": "HDMI1", "language": "klingon" }
+            """);
+
+        var config = AppConfig.Load(ConfigPath, out var error);
+
+        Assert.Null(error);
+        Assert.Equal("klingon", config.Language);
+        Assert.False(Localization.IsSupported(config.Language));
+    }
+
+    [Fact]
     public void SurvivesCollectionsExplicitlySetToNull()
     {
         // The config file is documented as hand-editable, so "monitorTargets": null is a thing a

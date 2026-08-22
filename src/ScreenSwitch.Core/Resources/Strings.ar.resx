@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_AlreadyRunning" xml:space="preserve">
+    <value>‏ScreenSwitch قيد التشغيل بالفعل. ابحث عن الأيقونة في منطقة الإشعارات بجوار الساعة.</value>
+  </data>
+  <data name="Startup_CannotOpenRegistryKey" xml:space="preserve">
+    <value>تعذّر فتح مفتاح السجل</value>
+  </data>
+  <data name="Monitor_NoDdcResponse" xml:space="preserve">
+    <value>لم تستجب الشاشة لأمر DDC/CI (قد يكون DDC/CI معطّلاً في قائمتها)</value>
+  </data>
+  <data name="Monitor_NoTargetConfigured" xml:space="preserve">
+    <value>لم يتم تعيين مصدر دخل هدف</value>
+  </data>
+  <data name="Cli_Error" xml:space="preserve">
+    <value>خطأ: {0}</value>
+  </data>
+  <data name="Cli_HelpIntro" xml:space="preserve">
+    <value>‏ScreenSwitch — يبدّل مصدر دخل الشاشات بين الحواسيب عبر DDC/CI.</value>
+  </data>
+  <data name="Cli_HelpTrayDesc" xml:space="preserve">
+    <value>التشغيل كأيقونة في شريط النظام</value>
+  </data>
+  <data name="Cli_HelpSwitchDesc" xml:space="preserve">
+    <value>التبديل إلى الهدف المحدد في ملف الإعدادات</value>
+  </data>
+  <data name="Cli_HelpToDesc" xml:space="preserve">
+    <value>التبديل إلى مصدر دخل محدد (DisplayPort1 / HDMI1 / HDMI2 / 0x11)</value>
+  </data>
+  <data name="Cli_HelpListDesc" xml:space="preserve">
+    <value>عرض الشاشات ومصدر الدخل الحالي والمصادر المدعومة</value>
+  </data>
+  <data name="Cli_HelpAutostartDesc" xml:space="preserve">
+    <value>التشغيل تلقائياً مع Windows</value>
+  </data>
+  <data name="Cli_ConfigFile" xml:space="preserve">
+    <value>ملف الإعدادات: {0}</value>
+  </data>
+  <data name="Cli_AutostartOn" xml:space="preserve">
+    <value>التشغيل التلقائي: مُفعّل</value>
+  </data>
+  <data name="Cli_AutostartOff" xml:space="preserve">
+    <value>التشغيل التلقائي: معطّل</value>
+  </data>
+  <data name="Cli_AutostartUnknownValue" xml:space="preserve">
+    <value>قيمة غير معروفة: {0}. استخدم on أو off.</value>
+  </data>
+  <data name="Cli_AutostartFailed" xml:space="preserve">
+    <value>تعذّر تغيير التشغيل التلقائي: {0}</value>
+  </data>
+  <data name="Cli_AutostartEnabled" xml:space="preserve">
+    <value>تم تفعيل التشغيل التلقائي. سيبدأ ScreenSwitch تلقائياً بعد إعادة التشغيل.</value>
+  </data>
+  <data name="Cli_AutostartDisabled" xml:space="preserve">
+    <value>تم تعطيل التشغيل التلقائي.</value>
+  </data>
+  <data name="Cli_NoMonitors" xml:space="preserve">
+    <value>لم يتم العثور على شاشات تدعم DDC/CI.</value>
+  </data>
+  <data name="Cli_UnknownInput" xml:space="preserve">
+    <value>مصدر دخل غير معروف: {0}</value>
+  </data>
+  <data name="Cli_MissingValue" xml:space="preserve">
+    <value>(مفقود)</value>
+  </data>
+  <data name="Cli_PossibleValues" xml:space="preserve">
+    <value>القيم الممكنة: {0}</value>
+  </data>
+  <data name="Cli_NoTargetConfigured" xml:space="preserve">
+    <value>لم يتم تعيين مصدر دخل هدف. شغّل ‎--to &lt;input&gt;‎ أو عيّن targetInput في ملف الإعدادات.</value>
+  </data>
+  <data name="Tray_ConfigReadErrorTitle" xml:space="preserve">
+    <value>تعذّرت قراءة ملف الإعدادات</value>
+  </data>
+  <data name="Tray_ConfigReadErrorBody" xml:space="preserve">
+    <value>{0}
+تم تحميل الإعدادات الافتراضية.</value>
+  </data>
+  <data name="Tray_BlockedFullscreenApp" xml:space="preserve">
+    <value>تطبيق يعمل بملء الشاشة</value>
+  </data>
+  <data name="Tray_BlockedTitle" xml:space="preserve">
+    <value>تم حظر التبديل</value>
+  </data>
+  <data name="Tray_BlockedBody" xml:space="preserve">
+    <value>{0} قيد التشغيل. اضغط الاختصار مرة أخرى للتبديل على أي حال.</value>
+  </data>
+  <data name="Tray_NoTargetTitle" xml:space="preserve">
+    <value>يجب تعيين هدف</value>
+  </data>
+  <data name="Tray_NoTargetBody" xml:space="preserve">
+    <value>افتح قائمة ScreenSwitch واختر «التبديل إلى» لتحديد مصدر الدخل المطلوب.</value>
+  </data>
+  <data name="Tray_Switching" xml:space="preserve">
+    <value>‏ScreenSwitch — يجري تبديل الشاشات…</value>
+  </data>
+  <data name="Tray_SwitchFailedTitle" xml:space="preserve">
+    <value>فشل التبديل</value>
+  </data>
+  <data name="Tray_SwitchPartialTitle" xml:space="preserve">
+    <value>نجح التبديل جزئياً</value>
+  </data>
+  <data name="Tray_NoMonitorsTitle" xml:space="preserve">
+    <value>لم يتم العثور على شاشات</value>
+  </data>
+  <data name="Tray_NoMonitorsBody" xml:space="preserve">
+    <value>لم يتم اكتشاف أي شاشة تدعم DDC/CI. تأكد من تفعيل DDC/CI في قائمة الشاشة.</value>
+  </data>
+  <data name="Tray_TheTarget" xml:space="preserve">
+    <value>الهدف</value>
+  </data>
+  <data name="Tray_SwitchedTitle" xml:space="preserve">
+    <value>تم تبديل الشاشات</value>
+  </data>
+  <data name="Tray_SwitchedBody" xml:space="preserve">
+    <value>تم تبديل جميع الشاشات إلى {0}.</value>
+  </data>
+  <data name="Tray_DetectFailedTitle" xml:space="preserve">
+    <value>فشل اكتشاف الشاشات</value>
+  </data>
+  <data name="Tray_FirstRunTitle" xml:space="preserve">
+    <value>‏ScreenSwitch قيد التشغيل</value>
+  </data>
+  <data name="Tray_FirstRunBody" xml:space="preserve">
+    <value>انقر بزر الفأرة الأيمن على الأيقونة واختر «التبديل إلى» لتحديد مصدر الدخل الذي ستنتقل إليه الشاشات من هذا الحاسوب.</value>
+  </data>
+  <data name="Tray_AutostartPromptBody" xml:space="preserve">
+    <value>هل تريد تشغيل ScreenSwitch تلقائياً مع Windows؟
+
+عندها ستكون الشاشات جاهزة للتبديل فور إعادة التشغيل، دون تشغيل الملف يدوياً.
+يمكنك تغيير ذلك في أي وقت من قائمة الأيقونة.</value>
+  </data>
+  <data name="Tray_AutostartFailedTitle" xml:space="preserve">
+    <value>تعذّر تغيير التشغيل التلقائي</value>
+  </data>
+  <data name="Tray_UnknownError" xml:space="preserve">
+    <value>خطأ غير معروف</value>
+  </data>
+  <data name="Tray_SaveConfigFailedTitle" xml:space="preserve">
+    <value>تعذّر حفظ الإعدادات</value>
+  </data>
+  <data name="Tray_HotkeyFailedTitle" xml:space="preserve">
+    <value>لم يتم تسجيل اختصار لوحة المفاتيح</value>
+  </data>
+  <data name="Tray_HotkeyFailedBody" xml:space="preserve">
+    <value>على الأرجح أن {0} مستخدم من قبل تطبيق آخر. يمكنك تغييره في ملف الإعدادات. ولا تزال أيقونة شريط النظام تعمل.</value>
+  </data>
+  <data name="Tray_HeaderNoTarget" xml:space="preserve">
+    <value>‏ScreenSwitch — لم يتم تعيين هدف</value>
+  </data>
+  <data name="Tray_HeaderTarget" xml:space="preserve">
+    <value>‏ScreenSwitch — الهدف: {0}</value>
+  </data>
+  <data name="Tray_SwitchNow" xml:space="preserve">
+    <value>التبديل إلى الحاسوب الآخر   ({0})</value>
+  </data>
+  <data name="Tray_SwitchTo" xml:space="preserve">
+    <value>التبديل إلى</value>
+  </data>
+  <data name="Tray_SetDefault" xml:space="preserve">
+    <value>تعيين الهدف الثابت</value>
+  </data>
+  <data name="Tray_MonitorDetails" xml:space="preserve">
+    <value>تفاصيل الشاشات…</value>
+  </data>
+  <data name="Tray_RedetectMonitors" xml:space="preserve">
+    <value>إعادة اكتشاف الشاشات</value>
+  </data>
+  <data name="Tray_OpenConfigFile" xml:space="preserve">
+    <value>فتح ملف الإعدادات</value>
+  </data>
+  <data name="Tray_StartWithWindows" xml:space="preserve">
+    <value>التشغيل مع Windows</value>
+  </data>
+  <data name="Tray_Language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="Tray_LanguageAutomatic" xml:space="preserve">
+    <value>تلقائي (حسب Windows)</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>خروج</value>
+  </data>
+  <data name="Tray_ActiveMarker" xml:space="preserve">
+    <value>  (نشط الآن)</value>
+  </data>
+  <data name="Tooltip_Now" xml:space="preserve">
+    <value> — الآن: {0}</value>
+  </data>
+  <data name="Tray_CannotOpenConfigTitle" xml:space="preserve">
+    <value>تعذّر فتح ملف الإعدادات</value>
+  </data>
+  <data name="Details_Title" xml:space="preserve">
+    <value>‏ScreenSwitch — تفاصيل الشاشات</value>
+  </data>
+  <data name="Details_CheckOsd" xml:space="preserve">
+    <value>تحقق من قائمة الشاشة: System Setup ← DDC/CI ← On</value>
+  </data>
+  <data name="Details_Device" xml:space="preserve">
+    <value>  الجهاز: {0}</value>
+  </data>
+  <data name="Details_Id" xml:space="preserve">
+    <value>  المعرّف: {0}</value>
+  </data>
+  <data name="Details_CurrentInput" xml:space="preserve">
+    <value>  مصدر الدخل الحالي: {0}</value>
+  </data>
+  <data name="Details_Unknown" xml:space="preserve">
+    <value>غير معروف</value>
+  </data>
+  <data name="Details_SupportedInputs" xml:space="preserve">
+    <value>  مصادر الدخل المدعومة: {0}</value>
+  </data>
+  <data name="Details_Error" xml:space="preserve">
+    <value>  خطأ: {0}</value>
+  </data>
+  <data name="Details_ConfigFile" xml:space="preserve">
+    <value>ملف الإعدادات: {0}</value>
+  </data>
+</root>

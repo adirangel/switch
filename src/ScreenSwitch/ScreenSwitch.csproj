@@ -15,7 +15,9 @@
     <Description>Tray app that switches monitor inputs between two computers over DDC/CI.</Description>
     <!-- Allows building and running the unit tests on a non-Windows host (CI/dev container). -->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <!-- Every shipped translation. Narrowing this list silently drops those satellite assemblies
+         from the published output, leaving the interface English-only. -->
+    <SatelliteResourceLanguages>en;es;fr;pt;he;ar;ja;zh-Hans</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">

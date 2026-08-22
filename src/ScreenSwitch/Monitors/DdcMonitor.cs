@@ -2,6 +2,8 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using ScreenSwitch.Core;
+
 namespace ScreenSwitch.Monitors;
 
 /// <summary>
@@ -103,7 +105,7 @@ internal sealed class DdcMonitor : IDisposable
         if (code == 0)
         {
             // dxva2 reports "no DDC/CI" by failing without setting an error code.
-            return "המסך לא הגיב לפקודת DDC/CI (ייתכן ש-DDC/CI כבוי בתפריט המסך)";
+            return Strings.Monitor_NoDdcResponse;
         }
 
         return new Win32Exception(code).Message;

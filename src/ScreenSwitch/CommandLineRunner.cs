@@ -31,7 +31,7 @@ internal static class CommandLineRunner
         }
         catch (Exception ex)
         {
-            output.AppendLine($"שגיאה: {ex.Message}");
+            output.AppendLine(Strings.Cli_Error(ex.Message));
             return 1;
         }
         finally
@@ -40,17 +40,25 @@ internal static class CommandLineRunner
         }
     }
 
+    /// <summary>One aligned usage line: the command padded to a fixed column, then its description.</summary>
+    private static void Usage(StringBuilder output, string command, string description)
+        => output.AppendLine($"  {command,-36}{description}");
+
     private static int Help(StringBuilder output)
     {
-        output.AppendLine("ScreenSwitch — מעביר את קלט המסכים בין מחשבים דרך DDC/CI.");
+        output.AppendLine(Strings.Cli_HelpIntro);
         output.AppendLine();
-        output.AppendLine("  ScreenSwitch.exe               הפעלה כאייקון במגש המערכת");
-        output.AppendLine("  ScreenSwitch.exe --switch      מעבר ליעד שמוגדר בקובץ ההגדרות");
-        output.AppendLine("  ScreenSwitch.exe --to HDMI1    מעבר לקלט מסוים (DisplayPort1 / HDMI1 / HDMI2 / 0x11)");
-        output.AppendLine("  ScreenSwitch.exe --list        הצגת המסכים, הקלט הנוכחי והקלטים הנתמכים");
-        output.AppendLine("  ScreenSwitch.exe --autostart on|off   הפעלה אוטומטית עם Windows");
+
+        // The command column is padded in code rather than baked into each translated line, so the
+        // descriptions stay aligned whatever length they turn out to be in a given language.
+        Usage(output, "ScreenSwitch.exe", Strings.Cli_HelpTrayDesc);
+        Usage(output, "ScreenSwitch.exe --switch", Strings.Cli_HelpSwitchDesc);
+        Usage(output, "ScreenSwitch.exe --to HDMI1", Strings.Cli_HelpToDesc);
+        Usage(output, "ScreenSwitch.exe --list", Strings.Cli_HelpListDesc);
+        Usage(output, "ScreenSwitch.exe --autostart on|off", Strings.Cli_HelpAutostartDesc);
+
         output.AppendLine();
-        output.AppendLine($"קובץ הגדרות: {AppConfig.DefaultPath}");
+        output.AppendLine(Strings.Cli_ConfigFile(AppConfig.DefaultPath));
         return 0;
     }
 
@@ -63,8 +71,8 @@ internal static class CommandLineRunner
         if (mode is null)
         {
             output.AppendLine(StartupManager.IsEnabled()
-                ? "הפעלה אוטומטית: פעילה"
-                : "הפעלה אוטומטית: כבויה");
+                ? Strings.Cli_AutostartOn
+                : Strings.Cli_AutostartOff);
             return 0;
         }
 
@@ -78,19 +86,19 @@ internal static class CommandLineRunner
                 enable = false;
                 break;
             default:
-                output.AppendLine($"ערך לא מוכר: {mode}. השתמש ב-on או ב-off.");
+                output.AppendLine(Strings.Cli_AutostartUnknownValue(mode));
                 return 1;
         }
 
         if (!StartupManager.TrySet(enable, out var error))
         {
-            output.AppendLine($"שינוי ההפעלה האוטומטית נכשל: {error}");
+            output.AppendLine(Strings.Cli_AutostartFailed(error));
             return 1;
         }
 
         output.AppendLine(enable
-            ? "הפעלה אוטומטית הופעלה. ScreenSwitch יעלה לבד אחרי אתחול."
-            : "הפעלה אוטומטית כובתה.");
+            ? Strings.Cli_AutostartEnabled
+            : Strings.Cli_AutostartDisabled);
         return 0;
     }
 
@@ -100,7 +108,7 @@ internal static class CommandLineRunner
 
         if (snapshots.Count == 0)
         {
-            output.AppendLine("לא נמצאו מסכים תומכי DDC/CI.");
+            output.AppendLine(Strings.Cli_NoMonitors);
             return 1;
         }
 
@@ -127,8 +135,8 @@ internal static class CommandLineRunner
     {
         if (!InputSources.TryParse(value, out var code))
         {
-            output.AppendLine($"קלט לא מוכר: {value ?? "(חסר)"}");
-            output.AppendLine($"ערכים אפשריים: {string.Join(", ", InputSources.All.Select(i => i.Name))}");
+            output.AppendLine(Strings.Cli_UnknownInput(value ?? Strings.Cli_MissingValue));
+            output.AppendLine(Strings.Cli_PossibleValues(string.Join(", ", InputSources.All.Select(i => i.Name))));
             return 2;
         }
 
@@ -141,7 +149,7 @@ internal static class CommandLineRunner
 
         if (target is null && config.ResolveGlobalTarget() is null && config.MonitorTargets.Count == 0)
         {
-            output.AppendLine("לא הוגדר קלט יעד. הרץ --to <input> או הגדר targetInput בקובץ ההגדרות.");
+            output.AppendLine(Strings.Cli_NoTargetConfigured);
             return 2;
         }
 
@@ -149,7 +157,7 @@ internal static class CommandLineRunner
 
         if (report.NoMonitors)
         {
-            output.AppendLine("לא נמצאו מסכים תומכי DDC/CI.");
+            output.AppendLine(Strings.Cli_NoMonitors);
             return 1;
         }
 

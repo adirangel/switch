@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_AlreadyRunning" xml:space="preserve">
+    <value>ScreenSwitch כבר פועל. חפש את האייקון באזור ההודעות (ליד השעון).</value>
+  </data>
+  <data name="Startup_CannotOpenRegistryKey" xml:space="preserve">
+    <value>לא ניתן לפתוח את מפתח הרג'יסטרי</value>
+  </data>
+  <data name="Monitor_NoDdcResponse" xml:space="preserve">
+    <value>המסך לא הגיב לפקודת DDC/CI (ייתכן ש-DDC/CI כבוי בתפריט המסך)</value>
+  </data>
+  <data name="Monitor_NoTargetConfigured" xml:space="preserve">
+    <value>לא הוגדר קלט יעד</value>
+  </data>
+  <data name="Cli_Error" xml:space="preserve">
+    <value>שגיאה: {0}</value>
+  </data>
+  <data name="Cli_HelpIntro" xml:space="preserve">
+    <value>ScreenSwitch — מעביר את קלט המסכים בין מחשבים דרך DDC/CI.</value>
+  </data>
+  <data name="Cli_HelpTrayDesc" xml:space="preserve">
+    <value>הפעלה כאייקון במגש המערכת</value>
+  </data>
+  <data name="Cli_HelpSwitchDesc" xml:space="preserve">
+    <value>מעבר ליעד שמוגדר בקובץ ההגדרות</value>
+  </data>
+  <data name="Cli_HelpToDesc" xml:space="preserve">
+    <value>מעבר לקלט מסוים (DisplayPort1 / HDMI1 / HDMI2 / 0x11)</value>
+  </data>
+  <data name="Cli_HelpListDesc" xml:space="preserve">
+    <value>הצגת המסכים, הקלט הנוכחי והקלטים הנתמכים</value>
+  </data>
+  <data name="Cli_HelpAutostartDesc" xml:space="preserve">
+    <value>הפעלה אוטומטית עם Windows</value>
+  </data>
+  <data name="Cli_ConfigFile" xml:space="preserve">
+    <value>קובץ הגדרות: {0}</value>
+  </data>
+  <data name="Cli_AutostartOn" xml:space="preserve">
+    <value>הפעלה אוטומטית: פעילה</value>
+  </data>
+  <data name="Cli_AutostartOff" xml:space="preserve">
+    <value>הפעלה אוטומטית: כבויה</value>
+  </data>
+  <data name="Cli_AutostartUnknownValue" xml:space="preserve">
+    <value>ערך לא מוכר: {0}. השתמש ב-on או ב-off.</value>
+  </data>
+  <data name="Cli_AutostartFailed" xml:space="preserve">
+    <value>שינוי ההפעלה האוטומטית נכשל: {0}</value>
+  </data>
+  <data name="Cli_AutostartEnabled" xml:space="preserve">
+    <value>הפעלה אוטומטית הופעלה. ScreenSwitch יעלה לבד אחרי אתחול.</value>
+  </data>
+  <data name="Cli_AutostartDisabled" xml:space="preserve">
+    <value>הפעלה אוטומטית כובתה.</value>
+  </data>
+  <data name="Cli_NoMonitors" xml:space="preserve">
+    <value>לא נמצאו מסכים תומכי DDC/CI.</value>
+  </data>
+  <data name="Cli_UnknownInput" xml:space="preserve">
+    <value>קלט לא מוכר: {0}</value>
+  </data>
+  <data name="Cli_MissingValue" xml:space="preserve">
+    <value>(חסר)</value>
+  </data>
+  <data name="Cli_PossibleValues" xml:space="preserve">
+    <value>ערכים אפשריים: {0}</value>
+  </data>
+  <data name="Cli_NoTargetConfigured" xml:space="preserve">
+    <value>לא הוגדר קלט יעד. הרץ --to &lt;input&gt; או הגדר targetInput בקובץ ההגדרות.</value>
+  </data>
+  <data name="Tray_ConfigReadErrorTitle" xml:space="preserve">
+    <value>שגיאה בקריאת קובץ ההגדרות</value>
+  </data>
+  <data name="Tray_ConfigReadErrorBody" xml:space="preserve">
+    <value>{0}
+נטענו הגדרות ברירת מחדל.</value>
+  </data>
+  <data name="Tray_BlockedFullscreenApp" xml:space="preserve">
+    <value>אפליקציה במסך מלא</value>
+  </data>
+  <data name="Tray_BlockedTitle" xml:space="preserve">
+    <value>המעבר נחסם</value>
+  </data>
+  <data name="Tray_BlockedBody" xml:space="preserve">
+    <value>{0} פועלת כרגע. לחץ שוב על הקיצור כדי להעביר בכל זאת.</value>
+  </data>
+  <data name="Tray_NoTargetTitle" xml:space="preserve">
+    <value>צריך להגדיר יעד</value>
+  </data>
+  <data name="Tray_NoTargetBody" xml:space="preserve">
+    <value>פתח את התפריט של ScreenSwitch ובחר 'עבור אל' כדי לקבוע לאיזה קלט לעבור.</value>
+  </data>
+  <data name="Tray_Switching" xml:space="preserve">
+    <value>ScreenSwitch — מעביר מסכים…</value>
+  </data>
+  <data name="Tray_SwitchFailedTitle" xml:space="preserve">
+    <value>המעבר נכשל</value>
+  </data>
+  <data name="Tray_SwitchPartialTitle" xml:space="preserve">
+    <value>המעבר הצליח חלקית</value>
+  </data>
+  <data name="Tray_NoMonitorsTitle" xml:space="preserve">
+    <value>לא נמצאו מסכים</value>
+  </data>
+  <data name="Tray_NoMonitorsBody" xml:space="preserve">
+    <value>לא זוהה אף מסך שתומך ב-DDC/CI. ודא ש-DDC/CI מופעל בתפריט המסך.</value>
+  </data>
+  <data name="Tray_TheTarget" xml:space="preserve">
+    <value>היעד</value>
+  </data>
+  <data name="Tray_SwitchedTitle" xml:space="preserve">
+    <value>המסכים הועברו</value>
+  </data>
+  <data name="Tray_SwitchedBody" xml:space="preserve">
+    <value>כל המסכים הועברו ל־{0}.</value>
+  </data>
+  <data name="Tray_DetectFailedTitle" xml:space="preserve">
+    <value>זיהוי המסכים נכשל</value>
+  </data>
+  <data name="Tray_FirstRunTitle" xml:space="preserve">
+    <value>ScreenSwitch פועל</value>
+  </data>
+  <data name="Tray_FirstRunBody" xml:space="preserve">
+    <value>לחץ ימני על האייקון ובחר 'עבור אל' כדי לקבוע לאיזה קלט המסכים יעברו מהמחשב הזה.</value>
+  </data>
+  <data name="Tray_AutostartPromptBody" xml:space="preserve">
+    <value>להפעיל את ScreenSwitch אוטומטית עם Windows?
+
+כך המסכים יהיו זמינים למעבר מיד אחרי אתחול, בלי להריץ את הקובץ ידנית.
+אפשר לשנות בכל רגע מהתפריט של האייקון.</value>
+  </data>
+  <data name="Tray_AutostartFailedTitle" xml:space="preserve">
+    <value>שינוי ההפעלה האוטומטית נכשל</value>
+  </data>
+  <data name="Tray_UnknownError" xml:space="preserve">
+    <value>שגיאה לא ידועה</value>
+  </data>
+  <data name="Tray_SaveConfigFailedTitle" xml:space="preserve">
+    <value>שמירת ההגדרות נכשלה</value>
+  </data>
+  <data name="Tray_HotkeyFailedTitle" xml:space="preserve">
+    <value>קיצור המקלדת לא נרשם</value>
+  </data>
+  <data name="Tray_HotkeyFailedBody" xml:space="preserve">
+    <value>הצירוף {0} כנראה תפוס על ידי תוכנה אחרת. אפשר לשנות אותו בקובץ ההגדרות. האייקון במגש ממשיך לעבוד.</value>
+  </data>
+  <data name="Tray_HeaderNoTarget" xml:space="preserve">
+    <value>ScreenSwitch — לא הוגדר יעד</value>
+  </data>
+  <data name="Tray_HeaderTarget" xml:space="preserve">
+    <value>ScreenSwitch — יעד: {0}</value>
+  </data>
+  <data name="Tray_SwitchNow" xml:space="preserve">
+    <value>עבור למחשב השני   ({0})</value>
+  </data>
+  <data name="Tray_SwitchTo" xml:space="preserve">
+    <value>עבור אל</value>
+  </data>
+  <data name="Tray_SetDefault" xml:space="preserve">
+    <value>קבע יעד קבוע</value>
+  </data>
+  <data name="Tray_MonitorDetails" xml:space="preserve">
+    <value>פרטי מסכים…</value>
+  </data>
+  <data name="Tray_RedetectMonitors" xml:space="preserve">
+    <value>זהה מסכים מחדש</value>
+  </data>
+  <data name="Tray_OpenConfigFile" xml:space="preserve">
+    <value>פתח קובץ הגדרות</value>
+  </data>
+  <data name="Tray_StartWithWindows" xml:space="preserve">
+    <value>הפעל עם Windows</value>
+  </data>
+  <data name="Tray_Language" xml:space="preserve">
+    <value>שפה</value>
+  </data>
+  <data name="Tray_LanguageAutomatic" xml:space="preserve">
+    <value>אוטומטי (לפי Windows)</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>יציאה</value>
+  </data>
+  <data name="Tray_ActiveMarker" xml:space="preserve">
+    <value>  (פעיל כעת)</value>
+  </data>
+  <data name="Tooltip_Now" xml:space="preserve">
+    <value> — כעת: {0}</value>
+  </data>
+  <data name="Tray_CannotOpenConfigTitle" xml:space="preserve">
+    <value>לא ניתן לפתוח את קובץ ההגדרות</value>
+  </data>
+  <data name="Details_Title" xml:space="preserve">
+    <value>ScreenSwitch — פרטי מסכים</value>
+  </data>
+  <data name="Details_CheckOsd" xml:space="preserve">
+    <value>בדוק שב-OSD של המסך: System Setup ← DDC/CI ← On</value>
+  </data>
+  <data name="Details_Device" xml:space="preserve">
+    <value>  התקן: {0}</value>
+  </data>
+  <data name="Details_Id" xml:space="preserve">
+    <value>  מזהה: {0}</value>
+  </data>
+  <data name="Details_CurrentInput" xml:space="preserve">
+    <value>  קלט נוכחי: {0}</value>
+  </data>
+  <data name="Details_Unknown" xml:space="preserve">
+    <value>לא ידוע</value>
+  </data>
+  <data name="Details_SupportedInputs" xml:space="preserve">
+    <value>  קלטים נתמכים: {0}</value>
+  </data>
+  <data name="Details_Error" xml:space="preserve">
+    <value>  שגיאה: {0}</value>
+  </data>
+  <data name="Details_ConfigFile" xml:space="preserve">
+    <value>קובץ ההגדרות: {0}</value>
+  </data>
+</root>

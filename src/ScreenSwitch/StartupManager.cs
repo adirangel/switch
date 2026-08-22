@@ -1,5 +1,7 @@
 using Microsoft.Win32;
 
+using ScreenSwitch.Core;
+
 namespace ScreenSwitch;
 
 /// <summary>
@@ -34,7 +36,7 @@ internal static class StartupManager
             using var key = Registry.CurrentUser.CreateSubKey(RunKeyPath, writable: true);
             if (key is null)
             {
-                error = "לא ניתן לפתוח את מפתח הרג'יסטרי";
+                error = Strings.Startup_CannotOpenRegistryKey;
                 return false;
             }
 

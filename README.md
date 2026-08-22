@@ -54,11 +54,19 @@ displays to the *other* one:
 
 ## Installation
 
-### 1 · Get the executable
+### 1 · Get it
 
-Open the **Actions** tab, pick the most recent `build` run, and download the `ScreenSwitch-win-x64`
-artifact. Inside is a single `ScreenSwitch.exe` — self-contained, no .NET install required, no
-administrator rights required. Put it somewhere permanent, such as `C:\Tools\ScreenSwitch\`.
+Open the **Actions** tab and pick the most recent `build` run. Two downloads are published there,
+and either one works:
+
+| Download | What it is |
+|---|---|
+| **`ScreenSwitch-Setup`** | An installer: pick a folder, get a Start Menu entry, an uninstaller, and a checkbox for starting with Windows |
+| **`ScreenSwitch-win-x64`** | The bare `ScreenSwitch.exe`, to put wherever you like and run — nothing is installed |
+
+Both are self-contained: no .NET install, and **no administrator rights**. The installer writes only
+inside your own user profile, which is what lets it run on a locked-down machine where a normal
+installation would be refused.
 
 > [!NOTE]
 > Windows will almost certainly show a **SmartScreen** warning the first time — *"Windows protected
@@ -87,9 +95,8 @@ dotnet publish src/ScreenSwitch/ScreenSwitch.csproj -c Release -r win-x64 -o pub
 Then repeat on the second machine, targeting the first machine's input.
 
 > [!TIP]
-> The tray interface is in Hebrew. Menu items appear below in English with the Hebrew label
-> alongside: **Monitor details…** (פרטי מסכים…), **Switch to** (עבור אל), **Start with Windows**
-> (הפעל עם Windows).
+> The menus appear in whatever language Windows is set to. If that is not the one you want, pick it
+> under **Language** in the tray menu — see [Languages](#languages).
 
 ### 3 · Auto-start
 
@@ -173,6 +180,28 @@ desktop. Set `"blockWhileGaming": false` to turn the whole thing off.
 
 ---
 
+## Languages
+
+The interface ships in eight languages and follows the one Windows is set to, falling back to
+English for anything else:
+
+| | | | |
+|---|---|---|---|
+| English | Español | Français | Português |
+| עברית | العربية | 日本語 | 简体中文 |
+
+To override it, use **Language** in the tray menu, or set `"language": "ja"` in the config. Setting
+it to `null` — the default — goes back to following Windows. Hebrew and Arabic lay the menus out
+right to left; the other six left to right.
+
+> [!NOTE]
+> The translations were produced with machine assistance and reviewed for placeholder and length
+> problems, not by native speakers of all eight. Corrections are genuinely welcome — the strings all
+> live in `src/ScreenSwitch.Core/Resources/`, one `Strings.<code>.resx` per language, and the tests
+> will tell you immediately if a key or a `{0}` goes missing.
+
+---
+
 ## Command line
 
 Useful for diagnostics, and for binding the switch to a Stream Deck or anything else that can run a
@@ -195,6 +224,7 @@ optional:
 ```jsonc
 {
   "targetInput": "DisplayPort1",   // where the monitors go from this machine
+  "language": null,                // "es", "ja", "zh-Hans"…; null follows Windows
   "hotkey": "Ctrl+Alt+S",          // Ctrl/Alt/Shift/Win + letter, digit or F1-F24
   "delayBetweenMonitorsMs": 150,   // pause between one monitor and the next
   "showNotifications": true,       // tray balloons
@@ -280,6 +310,8 @@ buttons always still work.
 | Path | Role |
 |---|---|
 | `src/ScreenSwitch.Core/` | Platform-neutral logic: capabilities parsing, config, hotkeys, the gaming guard |
+| `src/ScreenSwitch.Core/Resources/` | The translated interface strings, one `.resx` per language |
+| `installer/` | The Inno Setup script that builds `ScreenSwitch-Setup.exe` |
 | `src/ScreenSwitch/` | The tray app: WinForms, P/Invoke to `dxva2.dll`, command line |
 | `tests/ScreenSwitch.Tests/` | Unit tests over `ScreenSwitch.Core` |
 | `tools/make_icon.py` | Regenerates `Resources/app.ico` |

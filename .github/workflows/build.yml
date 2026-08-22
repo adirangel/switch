@@ -30,8 +30,25 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - run: dotnet publish src/ScreenSwitch/ScreenSwitch.csproj --configuration Release --runtime win-x64 --output publish
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload the portable executable
+        uses: actions/upload-artifact@v4
         with:
           name: ScreenSwitch-win-x64
           path: publish/ScreenSwitch.exe
+          if-no-files-found: error
+
+      # Not preinstalled on the windows-latest image, so it has to be fetched.
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build the installer
+        # ${env:...} braces are required: the parentheses in the variable name break bare $env: parsing.
+        run: '& "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" installer\ScreenSwitch.iss'
+
+      - name: Upload the installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: ScreenSwitch-Setup
+          path: installer-output/ScreenSwitch-Setup.exe
           if-no-files-found: error

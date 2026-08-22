@@ -162,7 +162,7 @@ internal static class MonitorService
 
                 if (target is null)
                 {
-                    outcomes.Add(new SwitchOutcome(monitor.Description, 0, false, "לא הוגדר קלט יעד"));
+                    outcomes.Add(new SwitchOutcome(monitor.Description, 0, false, Strings.Monitor_NoTargetConfigured));
                     continue;
                 }
 
